@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project-private xmlns="http://www.netbeans.org/ns/project-private/1">
+    <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
+    <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
+        <group>
+            <file>file:/C:/microchip/harmony/v2_06/apps/PROJ/SBP7_Test/firmware/src/appBt.c</file>
+            <file>file:/C:/microchip/harmony/v2_06/apps/PROJ/SBP7_Test/firmware/src/appReg.c</file>
+            <file>file:/C:/microchip/harmony/v2_06/apps/PROJ/SBP7_Test/firmware/src/appTouch.c</file>
+            <file>file:/C:/microchip/harmony/v2_06/apps/PROJ/SBP7_Test/firmware/src/appReg.h</file>
+            <file>file:/C:/microchip/harmony/v2_06/apps/PROJ/SBP7_Test/firmware/src/system_config/default/system_tasks.c</file>
+            <file>file:/C:/microchip/harmony/v2_06/apps/PROJ/SBP7_Test/firmware/src/appTouch.h</file>
+            <file>file:/C:/microchip/harmony/v2_06/apps/PROJ/SBP7_Test/firmware/src/appMcp.c</file>
+            <file>file:/C:/microchip/harmony/v2_06/apps/PROJ/SBP7_Test/firmware/src/system_config/default/system_interrupt.c</file>
+            <file>file:/C:/microchip/harmony/v2_06/apps/PROJ/SBP7_Test/firmware/src/appBuzz.c</file>
+            <file>file:/C:/microchip/harmony/v2_06/apps/PROJ/SBP7_Test/firmware/src/system_config/default/system_init.c</file>
+            <file>file:/C:/microchip/harmony/v2_06/apps/PROJ/SBP7_Test/firmware/src/Display.c</file>
+            <file>file:/C:/microchip/harmony/v2_06/apps/PROJ/SBP7_Test/firmware/src/appIn.c</file>
+            <file>file:/C:/microchip/harmony/v2_06/apps/PROJ/SBP7_Test/firmware/src/appDisp.c</file>
+            <file>file:/C:/microchip/harmony/v2_06/apps/PROJ/SBP7_Test/firmware/src/appIn.h</file>
+            <file>file:/C:/microchip/harmony/v2_06/apps/PROJ/SBP7_Test/firmware/src/Display.h</file>
+            <file>file:/C:/microchip/harmony/v2_06/apps/PROJ/SBP7_Test/firmware/src/system_config/default/system_config.h</file>
+            <file>file:/C:/microchip/harmony/v2_06/apps/PROJ/SBP7_Test/firmware/src/appDisp.h</file>
+        </group>
+    </open-files>
+</project-private>
