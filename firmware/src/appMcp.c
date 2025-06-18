@@ -54,6 +54,7 @@ SUBSTITUTE GOODS, TECHNOLOGY, SERVICES, OR ANY CLAIMS BY THIRD PARTIES
 // *****************************************************************************
 
 #include "appmcp.h"
+#include "mcp79411.h"
 
 // *****************************************************************************
 // *****************************************************************************
@@ -141,23 +142,23 @@ void APPMCP_Tasks ( void )
         /* Application's initial state. */
         case APPMCP_STATE_INIT:
         {
-            bool appInitialized = true;
-       
-        
-            if (appInitialized)
-            {
-            
-                appmcpData.state = APPMCP_STATE_SERVICE_TASKS;
-            }
+            mcp79411_init();
+            appmcpData.state  =  APPMCP_STATE_SERVICE_TASKS;
             break;
         }
 
         case APPMCP_STATE_SERVICE_TASKS:
         {
-        
+            mcp79411_get_time(&a<ppData.timeofRTC);
+            appmcpData.state = APPMCP_STATE_IDLE;
             break;
         }
+        case APPMCP_STATE_IDLE:
+        {
 
+
+          break;          
+        }
         /* TODO: implement your application state machine.*/
         
 

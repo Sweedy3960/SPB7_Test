@@ -58,7 +58,7 @@ SUBSTITUTE GOODS, TECHNOLOGY, SERVICES, OR ANY CLAIMS BY THIRD PARTIES
 #include <stdlib.h>
 #include "system_config.h"
 #include "system_definitions.h"
-
+#include "mcp79411.h"
 // DOM-IGNORE-BEGIN
 #ifdef __cplusplus  // Provide C++ Compatibility
 
@@ -89,7 +89,7 @@ typedef enum
 	/* Application's state machine's initial state. */
 	APPMCP_STATE_INIT=0,
 	APPMCP_STATE_SERVICE_TASKS,
-
+  APPMCP_STATE_IDLE,
 	/* TODO: Define states used by the application state machine. */
 
 } APPMCP_STATES;
@@ -112,7 +112,7 @@ typedef struct
 {
     /* The application's current state */
     APPMCP_STATES state;
-
+    mcp79411_time timeofRTC;
     /* TODO: Define any additional data used by the application. */
 
 } APPMCP_DATA;

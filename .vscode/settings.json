@@ -1,0 +1,6 @@
+{
+    "files.associations": {
+        "*.tsp": "lua",
+        "appmcp.h": "c"
+    }
+}

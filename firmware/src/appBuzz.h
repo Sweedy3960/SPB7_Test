@@ -59,6 +59,7 @@ SUBSTITUTE GOODS, TECHNOLOGY, SERVICES, OR ANY CLAIMS BY THIRD PARTIES
 #include "system_config.h"
 #include "system_definitions.h"
 
+
 // DOM-IGNORE-BEGIN
 #ifdef __cplusplus  // Provide C++ Compatibility
 
@@ -83,13 +84,21 @@ extern "C" {
     This enumeration defines the valid application states.  These states
     determine the behavior of the application at various times.
 */
-
+#define NOTE_DO   2093.00f
+#define NOTE_SI   1975.53f
+#define NOTE_LA   1760.00f
+#define NOTE_SOL  1567.98f
+#define NOTE_FA   1396.91f
+#define NOTE_MI   1318.51f
+#define NOTE_RE   1174.66f
+#define NOTE_DO2  1046.50f
+#define SONG_LENGTH (sizeof(songMelody)/sizeof(songMelody[0]))s
 typedef enum
 {
 	/* Application's state machine's initial state. */
 	APPBUZZ_STATE_INIT=0,
 	APPBUZZ_STATE_SERVICE_TASKS,
-
+  APPBUZZ_STATE_IDLE,
 	/* TODO: Define states used by the application state machine. */
 
 } APPBUZZ_STATES;
@@ -197,8 +206,9 @@ void APPBUZZ_Initialize ( void );
  */
 
 void APPBUZZ_Tasks( void );
-
-
+void APP_SetTMR0_Frequency(float freq_hz);
+void APP_PlaySong(void);
+void APP_TIMER1_CALLBACK(void);
 #endif /* _APPBUZZ_H */
 
 //DOM-IGNORE-BEGIN
