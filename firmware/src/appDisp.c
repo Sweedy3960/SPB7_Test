@@ -59,8 +59,8 @@ SUBSTITUTE GOODS, TECHNOLOGY, SERVICES, OR ANY CLAIMS BY THIRD PARTIES
 #include "ugui.h"
 #include "ugui_config.h"
 #include "appBuzz.h"
-//#include "app_taskctrl.h"
-//#include "app_eventbus.h"
+#include "taskctrl.h"
+#include "eventbus.h"
 
 // *****************************************************************************
 // *****************************************************************************
@@ -84,7 +84,7 @@ SUBSTITUTE GOODS, TECHNOLOGY, SERVICES, OR ANY CLAIMS BY THIRD PARTIES
  */
 
 APPDISP_DATA appDispData;
-//extern app_task_ctrl_t displayTaskCtrl;
+app_task_ctrl_t displayTaskCtrl;
 
 // *****************************************************************************
 // *****************************************************************************
@@ -160,8 +160,8 @@ void APPDISP_Tasks(void) {
 
         case APPDISP_STATE_SERVICE_TASKS:
         {
-          // if (!displayTaskCtrl.isActive)
-            //    break;
+           if (!displayTaskCtrl.isActive)
+                break;
 
             // === Startup logo sequence ===
             if (appDispData.needDisplayUpdate) {
@@ -175,10 +175,10 @@ void APPDISP_Tasks(void) {
             }
 
             // test if we need display and reset flag afer
-//            if (displayTaskCtrl.isDirty && appDispData.dispInit) {
-//                App_Display_ChangeScreen(appDispData.currentScreen, 0, true);  //  current UI state (force)
-//                displayTaskCtrl.isDirty = false;    // clear dirty flag
-//            }
+            if (displayTaskCtrl.isDirty && appDispData.dispInit) {
+                App_Display_ChangeScreen(appDispData.currentScreen, 0, true);  //  current UI state (force)
+                displayTaskCtrl.isDirty = false;    // clear dirty flag
+            }
 
             Display_Task();  // update UG_GUI and such
             break;

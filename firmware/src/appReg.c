@@ -54,7 +54,7 @@ SUBSTITUTE GOODS, TECHNOLOGY, SERVICES, OR ANY CLAIMS BY THIRD PARTIES
 // *****************************************************************************
 
 #include "appReg.h"
-
+#include "taskctrl.h"
 // *****************************************************************************
 // *****************************************************************************
 // Section: Global Data Definitions
@@ -77,7 +77,7 @@ SUBSTITUTE GOODS, TECHNOLOGY, SERVICES, OR ANY CLAIMS BY THIRD PARTIES
 */
 
 APPREG_DATA appregData;
-
+app_task_ctrl_t  ledTaskCtrl;
 // *****************************************************************************
 // *****************************************************************************
 // Section: Application Callback Functions
@@ -150,12 +150,12 @@ void APPREG_Tasks ( void )
 
         case APPREG_STATE_SERVICE_TASKS:
         {
-//            if (!ledTaskCtrl.isActive)
-//                break;
+            if (!ledTaskCtrl.isActive)
+                break;
 
             if (appregData.lastSysLeds.cmd_leds != appregData.sysLeds.cmd_leds) {
-                //set the flag 
-                //ledTaskCtrl.isDirty = true;
+               // set the flag 
+                ledTaskCtrl.isDirty = true;
 
             }
 
@@ -167,18 +167,18 @@ void APPREG_Tasks ( void )
             /* TODO: implement your application state machine.*/
         case APPREG_STATE_IDLE:
         {
-//            if (ledTaskCtrl.isDirty) {
-//
-//
-//
-//                touchTaskCtrl.isActive = false; // disable touch task while updating display
-//                displayTaskCtrl.isActive = false;
-//                SR_Update(&appregData.sysLeds);
-//                ledTaskCtrl.isDirty = false; // clear after updating
-//                touchTaskCtrl.isActive = true; // disable touch task while updating display
-//                displayTaskCtrl.isActive = true;
-//                break;
-//            }
+            if (ledTaskCtrl.isDirty) {
+
+
+
+                touchTaskCtrl.isActive = false; // disable touch task while updating display
+                displayTaskCtrl.isActive = false;
+                SR_Update(&appregData.sysLeds);
+                ledTaskCtrl.isDirty = false; // clear after updating
+                touchTaskCtrl.isActive = true; // disable touch task while updating display
+                displayTaskCtrl.isActive = true;
+                break;
+            }
 
             /* The default state should never be executed. */
             default:

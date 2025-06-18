@@ -185,7 +185,7 @@ typedef enum{
     MCP79411_ALRM_CHANNEL_MAX,  
 }mcp79411_alarm_channel;
 
-extern void mcp79411_init(void);
+ void mcp79411_init(void);
  uint8_t mcp79411_set_time(mcp79411_time* time);
  uint8_t mcp79411_get_time(mcp79411_time* time);
  uint8_t mcp79411_set_alarm(mcp79411_alarm_channel chnl, mcp79411_alarm_mode mode,
@@ -193,8 +193,8 @@ extern void mcp79411_init(void);
  uint8_t mcp79411_stop_alarm(mcp79411_alarm_channel chnl);
 
 //added to use it in app.c
-extern uint8_t mcp79411_dec2bcd(uint8_t dec);
-extern uint8_t mcp79411_bcd2dec(uint8_t bcd);
+uint8_t mcp79411_dec2bcd(uint8_t dec);
+uint8_t mcp79411_bcd2dec(uint8_t bcd);
 uint8_t mcp79411_rtc_iic_read(uint8_t  *rx_buffer,uint16_t len);
 uint8_t mcp79411_rtc_iic_write(uint8_t  *tx_buffer, uint16_t len);
 uint8_t mcp79411_get_status(mcp79411_time* time);
