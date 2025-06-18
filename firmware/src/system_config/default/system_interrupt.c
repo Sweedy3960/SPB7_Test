@@ -85,10 +85,17 @@ void __ISR(_TIMER_1_VECTOR, ipl1AUTO) IntHandlerDrvTmrInstance0(void)
 }
 void __ISR(_TIMER_2_VECTOR, ipl1AUTO) IntHandlerDrvTmrInstance1(void)
 {
-   
+    static uint8_t cnt=0;
+    //1s for INputs
+    
     //50ms for touch capa
+    if(cnt>= 5)
+    {
+        APP_TIMER2_CALLBACK();
+        cnt=0;
+    }
     PLIB_INT_SourceFlagClear(INT_ID_0,INT_SOURCE_TIMER_2);
-      APP_TIMER2_CALLBACK();
+    
 }
 void __ISR(_TIMER_3_VECTOR, ipl0AUTO) IntHandlerDrvTmrInstance2(void)
 {
@@ -96,8 +103,10 @@ void __ISR(_TIMER_3_VECTOR, ipl0AUTO) IntHandlerDrvTmrInstance2(void)
 }
 void __ISR(_TIMER_4_VECTOR, ipl1AUTO) IntHandlerDrvTmrInstance3(void)
 {
+    //for SR REG 10ms
     PLIB_INT_SourceFlagClear(INT_ID_0,INT_SOURCE_TIMER_4);
-     APP_TIMER4_CALLBACK();
+    APP_TIMER4_CALLBACK();
+    
          
 }
 void __ISR(_TIMER_5_VECTOR, ipl1AUTO) IntHandlerDrvTmrInstance4(void)

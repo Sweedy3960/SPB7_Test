@@ -54,7 +54,6 @@ SUBSTITUTE GOODS, TECHNOLOGY, SERVICES, OR ANY CLAIMS BY THIRD PARTIES
 // *****************************************************************************
 
 #include "appmcp.h"
-#include "mcp79411.h"
 
 // *****************************************************************************
 // *****************************************************************************
@@ -149,7 +148,7 @@ void APPMCP_Tasks ( void )
 
         case APPMCP_STATE_SERVICE_TASKS:
         {
-            mcp79411_get_time(&a<ppData.timeofRTC);
+            mcp79411_get_time(&appmcpData.timeofRTC);
             appmcpData.state = APPMCP_STATE_IDLE;
             break;
         }

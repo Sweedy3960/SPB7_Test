@@ -193,7 +193,8 @@ void APPTOUCH_Tasks ( void )
 
  void APP_TIMER2_CALLBACK(void)
 {
-    //time the app
+    //timer is 10ms so to read touch every 50ms 
+     
     apptouchData.state = APPTOUCH_STATE_SERVICE_TASKS;
 }
 

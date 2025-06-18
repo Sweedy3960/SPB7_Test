@@ -58,6 +58,7 @@ SUBSTITUTE GOODS, TECHNOLOGY, SERVICES, OR ANY CLAIMS BY THIRD PARTIES
 #include "LCD_Driver.h"
 #include "ugui.h"
 #include "ugui_config.h"
+#include "appBuzz.h"
 //#include "app_taskctrl.h"
 //#include "app_eventbus.h"
 
@@ -210,7 +211,7 @@ void App_Display_HandleTouch(uint16_t *touchStates) {
         case KEY_UP_L_MASK:
            
         case KEY_MID_L_MASK:
-
+            APPBUZZ_SetState(APPBUZZ_STATE_SERVICE_TASKS);
            
         case KEY_DOWN_L_MASK:
 

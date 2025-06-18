@@ -97,6 +97,7 @@ APPBUZZ_DATA appbuzzData;
 /* TODO:  Add any necessary local functions.
 */
 
+// Nouvelle séquence de notes pour la mélodie demandée
 
 // *****************************************************************************
 // *****************************************************************************
@@ -223,6 +224,11 @@ void APP_TIMER1_CALLBACK(void)
      */
     void APP_PlaySong(void)
     {
+       static float songMelody[10] = {
+    //like composing a song "randomly"
+    NOTE_DO, NOTE_RE, NOTE_DO, NOTE_RE, NOTE_MI, NOTE_FA,
+    NOTE_SOL, NOTE_FA, NOTE_MI, NOTE_RE
+};
         static uint16_t songDurations[10] = {
             500, 700, 500, 700, 700,
             700, 700, 700, 700, 1000
@@ -238,6 +244,14 @@ void APP_TIMER1_CALLBACK(void)
         }
     } 
 
+void APPBUZZ_SetState(APPBUZZ_STATES newstate)
+{
+
+        
+    appbuzzData.state = newstate;
+}
+    
+    
 /*******************************************************************************
  End of File
  */
