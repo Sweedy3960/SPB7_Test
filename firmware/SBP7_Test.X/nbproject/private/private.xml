@@ -3,13 +3,32 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/C:/Program%20Files/Microchip/xc32/v2.50/pic32mx/include/stdio.h</file>
             <file>file:/C:/microchip/harmony/v2_06/apps/PROJ/SBP7_Test/firmware/src/main.c</file>
+            <file>file:/C:/microchip/harmony/v2_06/apps/PROJ/SBP7_Test/firmware/src/system_config/default/framework/driver/spi/static/src/drv_spi_mapping.c</file>
+            <file>file:/C:/microchip/harmony/v2_06/apps/PROJ/SBP7_Test/firmware/src/appMcp.c</file>
+            <file>file:/C:/Program%20Files/Microchip/xc32/v2.50/pic32mx/include/stddef.h</file>
+            <file>file:/C:/microchip/harmony/v2_06/apps/PROJ/SBP7_Test/firmware/src/appMcp.h</file>
+            <file>file:/C:/microchip/harmony/v2_06/framework/peripheral/adc/plib_adc.h</file>
+            <file>file:/C:/Program%20Files/Microchip/MPLABX/v5.50/packs/Microchip/PIC32MX_DFP/1.5.259/xc32/startup/crt0.S</file>
+            <file>file:/C:/microchip/harmony/v2_06/apps/PROJ/SBP7_Test/firmware/src/system_config/default/framework/driver/tmr/src/drv_tmr_static.c</file>
+            <file>file:/C:/microchip/harmony/v2_06/apps/PROJ/SBP7_Test/firmware/src/PIC32130_AT42QT2120_I2C.c</file>
+            <file>file:/C:/microchip/harmony/v2_06/apps/PROJ/SBP7_Test/firmware/src/system_config/default/framework/driver/tmr/drv_tmr_static.h</file>
+            <file>file:/C:/Program%20Files/Microchip/xc32/v2.50/pic32mx/include/string.h</file>
+            <file>file:/C:/microchip/harmony/v2_06/apps/PROJ/SBP7_Test/firmware/src/PIC32130_AT42QT2120_I2C.h</file>
+            <file>file:/C:/microchip/harmony/v2_06/framework/system/common/sys_module.h</file>
+            <file>file:/C:/microchip/harmony/v2_06/apps/PROJ/SBP7_Test/firmware/src/appSd.h</file>
+            <file>file:/C:/microchip/harmony/v2_06/apps/PROJ/SBP7_Test/firmware/src/appSd.c</file>
+            <file>file:/C:/microchip/harmony/v2_06/apps/PROJ/SBP7_Test/firmware/src/LCD_Driver.h</file>
+            <file>file:/C:/microchip/harmony/v2_06/apps/PROJ/SBP7_Test/firmware/src/Display.c</file>
+            <file>file:/C:/microchip/harmony/v2_06/apps/PROJ/SBP7_Test/firmware/src/appDisp.c</file>
+            <file>file:/C:/microchip/harmony/v2_06/apps/PROJ/SBP7_Test/firmware/src/LCD_Driver.c</file>
+            <file>file:/C:/microchip/harmony/v2_06/apps/PROJ/SBP7_Test/firmware/src/Display.h</file>
+            <file>file:/C:/microchip/harmony/v2_06/apps/PROJ/SBP7_Test/firmware/src/appDisp.h</file>
+            <file>file:/C:/Program%20Files/Microchip/xc32/v2.50/pic32mx/include/stdio.h</file>
             <file>file:/C:/microchip/harmony/v2_06/apps/PROJ/SBP7_Test/firmware/src/appReg.c</file>
             <file>file:/C:/microchip/harmony/v2_06/apps/PROJ/SBP7_Test/firmware/src/appReg.h</file>
             <file>file:/C:/microchip/harmony/v2_06/apps/PROJ/SBP7_Test/firmware/src/Driver_SR_SN74HCS596QPWRQ1.h</file>
             <file>file:/C:/microchip/harmony/v2_06/apps/PROJ/SBP7_Test/firmware/src/eventbus.h</file>
-            <file>file:/C:/microchip/harmony/v2_06/apps/PROJ/SBP7_Test/firmware/src/appMcp.c</file>
             <file>file:/C:/microchip/harmony/v2_06/apps/PROJ/SBP7_Test/firmware/src/system_config/default/system_interrupt.c</file>
             <file>file:/C:/microchip/harmony/v2_06/apps/PROJ/SBP7_Test/firmware/src/mcp79411.c</file>
             <file>file:/C:/microchip/harmony/v2_06/apps/PROJ/SBP7_Test/firmware/src/system_config/default/framework/driver/spi/static/src/drv_spi_static_sys_queue.c</file>
@@ -17,39 +36,22 @@
             <file>file:/C:/microchip/harmony/v2_06/apps/PROJ/SBP7_Test/firmware/src/Mc32_I2cUtilCCS.h</file>
             <file>file:/C:/microchip/harmony/v2_06/apps/PROJ/SBP7_Test/firmware/src/mcp79411.h</file>
             <file>file:/C:/microchip/harmony/v2_06/apps/PROJ/SBP7_Test/firmware/src/taskctrl.c</file>
-            <file>file:/C:/Program%20Files/Microchip/xc32/v2.50/pic32mx/include/stddef.h</file>
-            <file>file:/C:/microchip/harmony/v2_06/apps/PROJ/SBP7_Test/firmware/src/appMcp.h</file>
-            <file>file:/C:/microchip/harmony/v2_06/framework/peripheral/adc/plib_adc.h</file>
-            <file>file:/C:/Program%20Files/Microchip/MPLABX/v5.50/packs/Microchip/PIC32MX_DFP/1.5.259/xc32/startup/crt0.S</file>
             <file>file:/C:/microchip/harmony/v2_06/apps/PROJ/SBP7_Test/firmware/src/taskctrl.h</file>
-            <file>file:/C:/microchip/harmony/v2_06/apps/PROJ/SBP7_Test/firmware/src/system_config/default/framework/driver/tmr/src/drv_tmr_static.c</file>
-            <file>file:/C:/microchip/harmony/v2_06/apps/PROJ/SBP7_Test/firmware/src/PIC32130_AT42QT2120_I2C.c</file>
-            <file>file:/C:/microchip/harmony/v2_06/apps/PROJ/SBP7_Test/firmware/src/system_config/default/framework/driver/tmr/drv_tmr_static.h</file>
-            <file>file:/C:/Program%20Files/Microchip/xc32/v2.50/pic32mx/include/string.h</file>
             <file>file:/C:/microchip/harmony/v2_06/apps/PROJ/SBP7_Test/firmware/src/Driver_SR_SN74HCS596QPWRQ1.c</file>
-            <file>file:/C:/microchip/harmony/v2_06/apps/PROJ/SBP7_Test/firmware/src/PIC32130_AT42QT2120_I2C.h</file>
             <file>file:/C:/microchip/harmony/v2_06/apps/PROJ/SBP7_Test/firmware/src/Mc32_I2cUtilCCS.c</file>
             <file>file:/C:/microchip/harmony/v2_06/apps/PROJ/SBP7_Test/firmware/src/appBoot.h</file>
             <file>file:/C:/microchip/harmony/v2_06/apps/PROJ/SBP7_Test/firmware/src/appBt.c</file>
             <file>file:/C:/microchip/harmony/v2_06/apps/PROJ/SBP7_Test/firmware/src/appTouch.c</file>
-            <file>file:/C:/microchip/harmony/v2_06/framework/system/common/sys_module.h</file>
+            <file>file:/C:/microchip/harmony/v2_06/apps/PROJ/SBP7_Test/firmware/src/system_config/default/framework/driver/adc/src/drv_adc_static.c</file>
             <file>file:/C:/microchip/harmony/v2_06/apps/PROJ/SBP7_Test/firmware/src/system_config/default/system_tasks.c</file>
-            <file>file:/C:/microchip/harmony/v2_06/apps/PROJ/SBP7_Test/firmware/src/appSd.h</file>
-            <file>file:/C:/microchip/harmony/v2_06/apps/PROJ/SBP7_Test/firmware/src/appSd.c</file>
             <file>file:/C:/microchip/harmony/v2_06/apps/PROJ/SBP7_Test/firmware/src/appTouch.h</file>
             <file>file:/C:/microchip/harmony/v2_06/apps/PROJ/SBP7_Test/firmware/src/appBt.h</file>
             <file>file:/C:/microchip/harmony/v2_06/apps/PROJ/SBP7_Test/firmware/src/appBoot.c</file>
             <file>file:/C:/microchip/harmony/v2_06/apps/PROJ/SBP7_Test/firmware/SBP7_Test.X/nbproject/Makefile-default.mk</file>
             <file>file:/C:/microchip/harmony/v2_06/apps/PROJ/SBP7_Test/firmware/src/appBuzz.c</file>
             <file>file:/C:/microchip/harmony/v2_06/apps/PROJ/SBP7_Test/firmware/src/system_config/default/system_init.c</file>
-            <file>file:/C:/microchip/harmony/v2_06/apps/PROJ/SBP7_Test/firmware/src/LCD_Driver.h</file>
             <file>file:/C:/microchip/harmony/v2_06/apps/PROJ/SBP7_Test/firmware/src/appIn.c</file>
-            <file>file:/C:/microchip/harmony/v2_06/apps/PROJ/SBP7_Test/firmware/src/Display.c</file>
-            <file>file:/C:/microchip/harmony/v2_06/apps/PROJ/SBP7_Test/firmware/src/appDisp.c</file>
-            <file>file:/C:/microchip/harmony/v2_06/apps/PROJ/SBP7_Test/firmware/src/LCD_Driver.c</file>
             <file>file:/C:/microchip/harmony/v2_06/apps/PROJ/SBP7_Test/firmware/src/eventbus.c</file>
-            <file>file:/C:/microchip/harmony/v2_06/apps/PROJ/SBP7_Test/firmware/src/Display.h</file>
-            <file>file:/C:/microchip/harmony/v2_06/apps/PROJ/SBP7_Test/firmware/src/appDisp.h</file>
         </group>
     </open-files>
 </project-private>
