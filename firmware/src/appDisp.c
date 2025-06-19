@@ -88,7 +88,7 @@ APPDISP_DATA appDispData;
 extern app_task_ctrl_t displayTaskCtrl;
 
 // Variable globale pour les états des signaux
-uint8_t g_signalLineStates[7] = {0};
+extern uint16_t g_signalLineStates[7];
 
 // *****************************************************************************
 // *****************************************************************************

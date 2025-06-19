@@ -47,6 +47,8 @@ char signalNames[7][20] = {
     "Signal6",
     "Signal7"
 };
+
+uint16_t g_signalLineStates[7];
 ///@}
 //extern MODULE_SLOT_DATA slotData[7];
 /* ************************************************************************** */
@@ -470,7 +472,7 @@ void DisplayScreen(uint8_t screen, uint16_t *touchStates, bool setToDark) {
             DisplayEyeLogo();
             break;
         case DISP_SIGN:
-            DisplayScreen_Signals(&touchs, setToDark);
+            DisplayScreen_Signals(g_signalLineStates, setToDark);
             break;
         case DISP_SCR_MENU:
             DisplayScreen_MainMenu(&touchs, setToDark);
