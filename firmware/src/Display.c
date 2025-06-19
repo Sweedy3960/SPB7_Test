@@ -624,21 +624,20 @@ void DisplayScreen_Signals(uint16_t *stateTouch, bool setToDark) {
     uint8_t i;
     if (stateTouch == NULL)
         return;
+    // On récupère l'état binaire (bit 0 = OK, bit 1 = ER/LN)
+//    for (i = 0; i < 7; i++) {
+//        states[i] = (*stateTouch >> i) & 0x01;
+//    }
     for (i = 0; i < 7; i++) {
-        states[i] = (*stateTouch >> i) & 0x01;
-    }
-
-
-
-    for (i = 0; i < 7; i++) {
-        strcpy(sginals[i], signalNames[i]);
-
-        if (states[i] != 0) {
+        
+        if (stateTouch[i] == 2) {
+            strcat(sginals[i], " LN");
+        } else if (stateTouch[i] != 0) {
             strcat(sginals[i], " ER");
         } else {
             strcat(sginals[i], " OK");
         }
-
+        strcpy(sginals[i], signalNames[i]);
     }
     if (setToDark) {
         UG_SetBackcolor(C_WHITE);

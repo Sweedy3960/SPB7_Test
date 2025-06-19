@@ -61,6 +61,7 @@ SUBSTITUTE GOODS, TECHNOLOGY, SERVICES, OR ANY CLAIMS BY THIRD PARTIES
 #include "appBuzz.h"
 #include "eventbus.h"
 #include "taskctrl.h"
+#include <string.h>
 
 // *****************************************************************************
 // *****************************************************************************
@@ -444,25 +445,26 @@ void APP_DISP_TIMER5_CALLBACK(void) {
     }
 }
 
-
 // Gère les entrées analogiques et met à jour l'affichage des signaux
 void App_Display_HandleInputs(uint16_t *valAD) {
     int i = 0;
     if (!appDispData.dispInit || valAD == NULL)
         return;
-    // On ne traite que les 7 premiers signaux pour l'affichage
-    uint16_t stateInputs = 0;
-    for ( i = 0; i < 7; i++) {
-        if (valAD[i] > 550) {
-            // Bit à 0 = OK (convention DisplayScreen_Signals)
-            stateInputs &= ~(1 << i);
+    uint16_t stateInputs[7] = {0};
+    for (i = 0; i < 7; i++) {
+        if (valAD[i] < 100) {
+            stateInputs[i] = 2; // LN
+           
+        } else if (valAD[i] < 700) {
+            stateInputs[i] = 1; // ER
+            
         } else {
-            // Bit à 1 = ERREUR
-            stateInputs |= (1 << i);
+            stateInputs[i] = 0; // OK
+            
         }
     }
-    // Rafraîchit l'écran des signaux
-    App_Display_ChangeScreen(DISP_SIGN, &stateInputs, true);
+    App_Display_ChangeScreen(DISP_SIGN, &stateInputs[0], false);
+
 }
 
 /*******************************************************************************
