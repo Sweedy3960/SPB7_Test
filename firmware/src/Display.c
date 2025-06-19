@@ -617,19 +617,14 @@ void DrawEllipse(int centerX, int centerY, int a, int b) {
     }
 }
 
-void DisplayScreen_Signals(uint16_t *stateTouch, bool setToDark) {
+void DisplayScreen_Signals(uint8_t *stateTouch, bool setToDark) {
 
     char sginals[7][20];
-    uint8_t states[7];
     uint8_t i;
     if (stateTouch == NULL)
         return;
-    // On récupère l'état binaire (bit 0 = OK, bit 1 = ER/LN)
-//    for (i = 0; i < 7; i++) {
-//        states[i] = (*stateTouch >> i) & 0x01;
-//    }
     for (i = 0; i < 7; i++) {
-        
+        strcpy(sginals[i], signalNames[i]);
         if (stateTouch[i] == 2) {
             strcat(sginals[i], " LN");
         } else if (stateTouch[i] != 0) {
@@ -637,7 +632,6 @@ void DisplayScreen_Signals(uint16_t *stateTouch, bool setToDark) {
         } else {
             strcat(sginals[i], " OK");
         }
-        strcpy(sginals[i], signalNames[i]);
     }
     if (setToDark) {
         UG_SetBackcolor(C_WHITE);
