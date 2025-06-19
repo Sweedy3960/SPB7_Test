@@ -87,6 +87,9 @@ SUBSTITUTE GOODS, TECHNOLOGY, SERVICES, OR ANY CLAIMS BY THIRD PARTIES
 APPDISP_DATA appDispData;
 extern app_task_ctrl_t displayTaskCtrl;
 
+// Variable globale pour les états des signaux
+uint8_t g_signalLineStates[7] = {0};
+
 // *****************************************************************************
 // *****************************************************************************
 // Section: Application Callback Functions
@@ -450,21 +453,16 @@ void App_Display_HandleInputs(uint16_t *valAD) {
     int i = 0;
     if (!appDispData.dispInit || valAD == NULL)
         return;
-    uint16_t stateInputs[7] = {0};
     for (i = 0; i < 7; i++) {
         if (valAD[i] < 100) {
-            stateInputs[i] = 2; // LN
-           
+            g_signalLineStates[i] = 2; // LN
         } else if (valAD[i] < 700) {
-            stateInputs[i] = 1; // ER
-            
+            g_signalLineStates[i] = 1; // ER
         } else {
-            stateInputs[i] = 0; // OK
-            
+            g_signalLineStates[i] = 0; // OK
         }
     }
-    App_Display_ChangeScreen(DISP_SIGN, &stateInputs[0], false);
-
+    App_Display_ChangeScreen(DISP_SIGN, NULL, false);
 }
 
 /*******************************************************************************

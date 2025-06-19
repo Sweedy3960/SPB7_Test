@@ -166,16 +166,11 @@ static void DisplayScreen_Welcome(bool setToDark) {
 
 void DisplayScreen_MainMenu(uint16_t * stateTouch, bool setToDark) {
     static uint8_t menuIndex = 0; // 0 = Afficher signaux, 1 = Renommer un signal, 2 = Test Buzzer
-    //char menuItems[][]= { "Afficher signaux", "Renommer un signal", "Test Buzzer" };
-
     char *menuItems[] = {
         "Afficher signaux",
         "Renommer un signal",
         "Test Buzzer"
     };
-
-
-
     uint8_t nbItems = sizeof (menuItems) / sizeof (menuItems[0]);
     uint8_t i = 0;
     // Fond noir ou blanc
@@ -188,14 +183,11 @@ void DisplayScreen_MainMenu(uint16_t * stateTouch, bool setToDark) {
     }
     UG_FontSetHSpace(0);
     UG_FontSelect(&FONT_6X8);
-
     // Titre
     UG_PutString(1, 2, "Main Menu");
-
     // Affichage des choix de menu
     for (i = 0; i < nbItems; i++) {
         if (i == menuIndex) {
-            // Inversion noir/blanc pour l'item sélectionné
             UG_SetBackcolor(C_BLACK);
             UG_SetForecolor(C_WHITE);
             UG_FillFrame(8, 20 + i * 15, 120, 20 + i * 15 + 10, C_BLACK);
@@ -213,33 +205,13 @@ void DisplayScreen_MainMenu(uint16_t * stateTouch, bool setToDark) {
         UG_SetBackcolor(C_BLACK);
         UG_SetForecolor(C_WHITE);
     }
-     if (stateTouch == NULL)
+    if (stateTouch == NULL)
         return;
     // Gestion des touches
     switch (*stateTouch) {
-            //SIMPLE TOUCH
         case KEY_UP_R_MASK:
             if (menuIndex > 0) {
                 menuIndex--;
-            }
-            break;
-        case KEY_MID_R_MASK:
-            // Touche milieu gauche
-            switch (menuIndex) {
-                case 0:
-                    // Afficher signaux
-                    App_Display_ChangeScreen(DISP_SIGN, stateTouch, false);
-                    break;
-                case 1:
-                    // Renommer un signal
-                    App_Display_ChangeScreen(DISP_CHANGE_SIGN_NAME, stateTouch, false);
-                    break;
-                case 2:
-                    // Test Buzzer
-                    App_Display_ChangeScreen(DISP_SCR_ERROR, stateTouch, false);
-                    break;
-                default:
-                    break;
             }
             break;
         case KEY_DOWN_R_MASK:
@@ -247,15 +219,25 @@ void DisplayScreen_MainMenu(uint16_t * stateTouch, bool setToDark) {
                 menuIndex++;
             }
             break;
-        case KEY_UP_C_MASK:
+        case KEY_MID_R_MASK:
+            // Valider le choix
+            switch (menuIndex) {
+                case 0:
+                    App_Display_ChangeScreen(DISP_SIGN, stateTouch, false);
+                    break;
+                case 1:
+                    App_Display_ChangeScreen(DISP_CHANGE_SIGN_NAME, stateTouch, false);
+                    break;
+                case 2:
+                    App_Display_ChangeScreen(DISP_SCR_ERROR, stateTouch, false);
+                    break;
+                default:
+                    break;
+            }
             break;
         default:
             break;
     }
-
-   
-
-
 }
 
 void DisplayScreen_Error(uint16_t * stateTouch, bool setToDark) {
