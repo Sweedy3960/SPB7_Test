@@ -617,7 +617,7 @@ void DrawEllipse(int centerX, int centerY, int a, int b) {
     }
 }
 
-void DisplayScreen_Signals(uint8_t *stateTouch, bool setToDark) {
+void DisplayScreen_Signals(uint16_t *stateTouch, bool setToDark) {
 
     char sginals[7][20];
     uint8_t i;
