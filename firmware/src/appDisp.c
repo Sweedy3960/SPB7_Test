@@ -412,8 +412,9 @@ void App_Display_HandleTouch(uint16_t *touchStates) {
 }
 void App_Display_ChangeScreen(uint8_t newScreen, uint16_t *touchStates, bool forceUpdate)
 {
-   // touchTaskCtrl.isActive = false; // disable touch task while updating display
-    //ledTaskCtrl.isActive = false; //disable SR led updates
+    touchTaskCtrl.isActive = false; // disable touch task while updating display
+    ledTaskCtrl.isActive = false; //disable SR led updates
+    inputsTaskCtrl.isActive = fasle;
     if (appDispData.currentScreen == newScreen && !forceUpdate)
         return;  // Skip if already on this screen and no forced redraw
 
@@ -421,9 +422,10 @@ void App_Display_ChangeScreen(uint8_t newScreen, uint16_t *touchStates, bool for
 
     DisplayScreen(newScreen, touchStates, true);
 
-//    displayTaskCtrl.isDirty = false; // reset after full redraw
-//    touchTaskCtrl.isActive = true; // re-enable touch task
-//    ledTaskCtrl.isActive = true;
+    displayTaskCtrl.isDirty = false; // reset after full redraw
+    touchTaskCtrl.isActive = true; // re-enable touch task
+    inputsTaskCtrl.isActive = true; //reenable adc inputs
+    ledTaskCtrl.isActive = true;
 }
 
 

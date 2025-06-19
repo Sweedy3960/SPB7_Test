@@ -77,7 +77,7 @@ SUBSTITUTE GOODS, TECHNOLOGY, SERVICES, OR ANY CLAIMS BY THIRD PARTIES
 */
 
 APPMCP_DATA appmcpData;
-
+app_task_ctrl_t rtcTackCtrl;
 // *****************************************************************************
 // *****************************************************************************
 // Section: Application Callback Functions

@@ -77,7 +77,7 @@ SUBSTITUTE GOODS, TECHNOLOGY, SERVICES, OR ANY CLAIMS BY THIRD PARTIES
 */
 
 APPIN_DATA appinData;
-
+extern app_task_ctrl_t inputsTaskCtrl;
 // *****************************************************************************
 // *****************************************************************************
 // Section: Application Callback Functions

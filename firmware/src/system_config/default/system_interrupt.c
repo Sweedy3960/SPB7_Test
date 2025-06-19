@@ -89,10 +89,18 @@ void __ISR(_TIMER_2_VECTOR, ipl1AUTO) IntHandlerDrvTmrInstance1(void)
     //1s for INputs
     
     //50ms for touch capa
-    if(cnt>= 5)
+    if(cnt%5 ==0)
     {
         APP_TIMER2_CALLBACK();
-        cnt=0;
+    
+    }
+    else
+    {
+        if(cnt>= 100)
+        {
+            APP_TIMER_AD_CALL_BACK();
+    
+        }
     }
     PLIB_INT_SourceFlagClear(INT_ID_0,INT_SOURCE_TIMER_2);
     
