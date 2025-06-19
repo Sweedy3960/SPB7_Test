@@ -234,26 +234,26 @@ void App_Display_HandleTouch(uint16_t *touchStates) {
          
         case KEY_DOWN_R_MASK:
 
-            
-             switch (appDispData.currentScreen) {
-                case DISP_SCR_MENU:
-                    // Handle up left key in menu
-                    //to make it work a non blockig way we call a function to set flag then flag is checked 
-                    // and the screen is changed
-                    // this is not good for performance but it is easier to understand
-                    appDispData.needDisplayUpdate = 1;
-                    App_Display_ChangeScreen(DISP_SCR_MENU, touchStates, false);
-                    
-                    break;
-                case DISP_CHANGE_SIGN_NAME:
-                    // Handle up left key in change sign name screen
-                    // This could be used to change the name of the sign
-                    
-                    break;
-                default:
-                   
-                    break;
-            }
+//            
+//             switch (appDispData.currentScreen) {
+//                case DISP_SCR_MENU:
+//                    // Handle up left key in menu
+//                    //to make it work a non blockig way we call a function to set flag then flag is checked 
+//                    // and the screen is changed
+//                    // this is not good for performance but it is easier to understand
+//                    appDispData.needDisplayUpdate = 1;
+//                    App_Display_ChangeScreen(DISP_SCR_MENU, touchStates, false);
+//                    
+//                    break;
+//                case DISP_CHANGE_SIGN_NAME:
+//                    // Handle up left key in change sign name screen
+//                    // This could be used to change the name of the sign
+//                    
+//                    break;
+//                default:
+//                   
+//                    break;
+//            }
             break;
 
             //SIMPLE COMBO TOUCH   
@@ -360,7 +360,14 @@ void App_Display_HandleTouch(uint16_t *touchStates) {
         case 0:
              //displayTaskCtrl.isDirty = true; 
             //touche released so rerender
-            App_Display_ChangeScreen(appDispData.currentScreen,&lastTouchStates,true);
+            if(appDispData.currentScreen == DISP_SIGN )
+            {
+                //App_Display_ChangeScreen(appDispData.currentScreen,&,true);
+            }
+            else
+            {
+                App_Display_ChangeScreen(appDispData.currentScreen,&lastTouchStates,true);
+            }
             break;
 
             /*
