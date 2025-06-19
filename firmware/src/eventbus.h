@@ -11,6 +11,6 @@ typedef enum {
     EVT_TIMER5_TOUCH_ELAPSED,
 } app_event_t;
 
-void App_EventBus_Publish(app_event_t evt, uint16_t *data);
+void App_EventBus_Publish(app_event_t evt, void *data);
 
 #endif
