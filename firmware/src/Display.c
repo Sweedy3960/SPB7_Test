@@ -624,21 +624,21 @@ void DisplayScreen_Signals(uint16_t *stateTouch, bool setToDark) {
     uint8_t i;
     if (stateTouch == NULL)
         return;
+    // On récupère l'état binaire (bit 0 = OK, bit 1 = ER/LN)
     for (i = 0; i < 7; i++) {
         states[i] = (*stateTouch >> i) & 0x01;
     }
-
-
-
+    // Si tu veux passer l'info LN, il faut la transmettre via un autre moyen (ex: variable globale ou paramètre étendu)
+    extern uint8_t g_signalLineStates[7]; // 0=OK, 1=ER, 2=LN (à mettre à jour dans App_Display_HandleInputs)
     for (i = 0; i < 7; i++) {
         strcpy(sginals[i], signalNames[i]);
-
-        if (states[i] != 0) {
+        if (g_signalLineStates[i] == 2) {
+            strcat(sginals[i], " LN");
+        } else if (states[i] != 0) {
             strcat(sginals[i], " ER");
         } else {
             strcat(sginals[i], " OK");
         }
-
     }
     if (setToDark) {
         UG_SetBackcolor(C_WHITE);

@@ -61,6 +61,7 @@ SUBSTITUTE GOODS, TECHNOLOGY, SERVICES, OR ANY CLAIMS BY THIRD PARTIES
 #include "appBuzz.h"
 #include "eventbus.h"
 #include "taskctrl.h"
+#include <string.h>
 
 // *****************************************************************************
 // *****************************************************************************
@@ -85,6 +86,7 @@ SUBSTITUTE GOODS, TECHNOLOGY, SERVICES, OR ANY CLAIMS BY THIRD PARTIES
 
 APPDISP_DATA appDispData;
 extern app_task_ctrl_t displayTaskCtrl;
+uint8_t g_signalLineStates[7] = {0};
 
 // *****************************************************************************
 // *****************************************************************************
@@ -444,23 +446,23 @@ void APP_DISP_TIMER5_CALLBACK(void) {
     }
 }
 
-
 // Gère les entrées analogiques et met à jour l'affichage des signaux
 void App_Display_HandleInputs(uint16_t *valAD) {
     if (!appDispData.dispInit || valAD == NULL)
         return;
-    // On ne traite que les 7 premiers signaux pour l'affichage
     uint16_t stateTouch = 0;
     for (int i = 0; i < 7; i++) {
-        if (valAD[i] > 550) {
-            // Bit à 0 = OK (convention DisplayScreen_Signals)
-            stateTouch &= ~(1 << i);
-        } else {
-            // Bit à 1 = ERREUR
+        if (valAD[i] < 100) {
+            g_signalLineStates[i] = 2; // LN
             stateTouch |= (1 << i);
+        } else if (valAD[i] < 700) {
+            g_signalLineStates[i] = 1; // ER
+            stateTouch |= (1 << i);
+        } else {
+            g_signalLineStates[i] = 0; // OK
+            stateTouch &= ~(1 << i);
         }
     }
-    // Rafraîchit l'écran des signaux
     App_Display_ChangeScreen(DISP_SIGN, &stateTouch, false);
 }
 
