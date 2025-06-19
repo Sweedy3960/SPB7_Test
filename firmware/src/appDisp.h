@@ -146,7 +146,7 @@ typedef struct
 	E_MODULE_ID id;
 	E_MODULE_MODEL model;
 } MODULE_SLOT_DATA;
-
+extern uint16_t g_signalLineStates[7];
 // *****************************************************************************
 // *****************************************************************************
 // Section: Application Callback Routines

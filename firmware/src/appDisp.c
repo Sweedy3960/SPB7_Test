@@ -469,7 +469,7 @@ void App_Display_HandleInputs(uint16_t *valAD) {
             g_signalLineStates[i] = 0; // OK
         }
     }
-    App_Display_ChangeScreen(DISP_SIGN, NULL, false);
+    App_Display_ChangeScreen(DISP_SIGN, NULL, true);
 }
 
 /*******************************************************************************
