@@ -274,8 +274,8 @@ void App_Display_HandleTouch(uint16_t *touchStates) {
             //RIGHT
         case ((KEY_UP_R_MASK | KEY_MID_R_MASK)):
             //
-             App_Display_ChangeScreen(DISP_CHANGE_SIGN_NAME, touchStates, false);
-             appDispData.currentScreen = DISP_CHANGE_SIGN_NAME; // Update current screen state
+            // App_Display_ChangeScreen(DISP_CHANGE_SIGN_NAME, touchStates, false);
+             //appDispData.currentScreen = DISP_CHANGE_SIGN_NAME; // Update current screen state
             break;
 
         case ((KEY_UP_R_MASK | KEY_DOWN_R_MASK)):
@@ -447,21 +447,22 @@ void APP_DISP_TIMER5_CALLBACK(void) {
 
 // Gère les entrées analogiques et met à jour l'affichage des signaux
 void App_Display_HandleInputs(uint16_t *valAD) {
+    int i = 0;
     if (!appDispData.dispInit || valAD == NULL)
         return;
     // On ne traite que les 7 premiers signaux pour l'affichage
-    uint16_t stateTouch = 0;
-    for (int i = 0; i < 7; i++) {
+    uint16_t stateInputs = 0;
+    for ( i = 0; i < 7; i++) {
         if (valAD[i] > 550) {
             // Bit à 0 = OK (convention DisplayScreen_Signals)
-            stateTouch &= ~(1 << i);
+            stateInputs &= ~(1 << i);
         } else {
             // Bit à 1 = ERREUR
-            stateTouch |= (1 << i);
+            stateInputs |= (1 << i);
         }
     }
     // Rafraîchit l'écran des signaux
-    App_Display_ChangeScreen(DISP_SIGN, &stateTouch, false);
+    App_Display_ChangeScreen(DISP_SIGN, &stateInputs, true);
 }
 
 /*******************************************************************************
