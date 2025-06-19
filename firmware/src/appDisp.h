@@ -231,6 +231,7 @@ void APP_Disp_Tasks( void );
 void EditSignalName_IHM(int index);
 void App_Display_ChangeScreen(uint8_t newScreen, uint16_t *touchStates, bool forceUpdate);
 void App_Display_HandleTouch(uint16_t *touchStates);
+void App_Display_HandleInputs(uint16_t *valAD);
 
 #endif /* _APPDISP_H */
 

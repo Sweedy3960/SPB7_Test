@@ -445,9 +445,24 @@ void APP_DISP_TIMER5_CALLBACK(void) {
 }
 
 
-
-
-
+// Gère les entrées analogiques et met à jour l'affichage des signaux
+void App_Display_HandleInputs(uint16_t *valAD) {
+    if (!appDispData.dispInit || valAD == NULL)
+        return;
+    // On ne traite que les 7 premiers signaux pour l'affichage
+    uint16_t stateTouch = 0;
+    for (int i = 0; i < 7; i++) {
+        if (valAD[i] > 550) {
+            // Bit à 0 = OK (convention DisplayScreen_Signals)
+            stateTouch &= ~(1 << i);
+        } else {
+            // Bit à 1 = ERREUR
+            stateTouch |= (1 << i);
+        }
+    }
+    // Rafraîchit l'écran des signaux
+    App_Display_ChangeScreen(DISP_SIGN, &stateTouch, false);
+}
 
 /*******************************************************************************
  End of File
