@@ -80,8 +80,9 @@ void SYS_Tasks ( void )
     /* Maintain Middleware & Other Libraries */
 
     /* Maintain the application's state machine. */
-    APPTOUCH_Tasks();
     APPDISP_Tasks();
+    APPTOUCH_Tasks();
+    
     APPIN_Tasks();
     APPREG_Tasks();
     APPMCP_Tasks();

@@ -14,7 +14,6 @@
             <sourceEncoding>ISO-8859-1</sourceEncoding>
             <make-dep-projects/>
             <sourceRootList>
-                <sourceRootElem>../src</sourceRootElem>
                 <sourceRootElem>../../..</sourceRootElem>
                 <sourceRootElem>..\src</sourceRootElem>
                 <sourceRootElem>..\src\default</sourceRootElem>

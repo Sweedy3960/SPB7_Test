@@ -16,6 +16,10 @@ extern app_task_ctrl_t displayTaskCtrl;
 
 extern app_task_ctrl_t ledTaskCtrl;
 
-//extern app_task_ctrl_t inputsTaskCtrl;
+extern app_task_ctrl_t inputsTaskCtrl;
+extern app_task_ctrl_t rtcTaskCtrl;
+extern app_task_ctrl_t buzzTaskCtrl;
+
+
 // Add more for other modules:
 #endif // APP_TASKCTRL_H

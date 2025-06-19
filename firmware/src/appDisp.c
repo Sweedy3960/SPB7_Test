@@ -59,8 +59,8 @@ SUBSTITUTE GOODS, TECHNOLOGY, SERVICES, OR ANY CLAIMS BY THIRD PARTIES
 #include "ugui.h"
 #include "ugui_config.h"
 #include "appBuzz.h"
-#include "taskctrl.h"
 #include "eventbus.h"
+#include "taskctrl.h"
 
 // *****************************************************************************
 // *****************************************************************************
@@ -154,7 +154,7 @@ void APPDISP_Tasks(void) {
             appDispData.state = APPDISP_STATE_SERVICE_TASKS;
             appDispData.needDisplayUpdate = 1;
             appDispData.dispInit = 0;
-
+            displayTaskCtrl.isActive =1;
             break;
         }
 
@@ -211,7 +211,7 @@ void App_Display_HandleTouch(uint16_t *touchStates) {
         case KEY_UP_L_MASK:
            
         case KEY_MID_L_MASK:
-            APPBUZZ_SetState(APPBUZZ_STATE_SERVICE_TASKS);
+            //APPBUZZ_SetState(APPBUZZ_STATE_SERVICE_TASKS);
            
         case KEY_DOWN_L_MASK:
 
@@ -414,7 +414,9 @@ void App_Display_ChangeScreen(uint8_t newScreen, uint16_t *touchStates, bool for
 {
     touchTaskCtrl.isActive = false; // disable touch task while updating display
     ledTaskCtrl.isActive = false; //disable SR led updates
-    inputsTaskCtrl.isActive = fasle;
+    inputsTaskCtrl.isActive = false;
+    rtcTaskCtrl.isActive = false;
+    buzzTaskCtrl.isActive = false;
     if (appDispData.currentScreen == newScreen && !forceUpdate)
         return;  // Skip if already on this screen and no forced redraw
 
@@ -426,6 +428,8 @@ void App_Display_ChangeScreen(uint8_t newScreen, uint16_t *touchStates, bool for
     touchTaskCtrl.isActive = true; // re-enable touch task
     inputsTaskCtrl.isActive = true; //reenable adc inputs
     ledTaskCtrl.isActive = true;
+    rtcTaskCtrl.isActive = true;
+    buzzTaskCtrl.isActive = true;
 }
 
 

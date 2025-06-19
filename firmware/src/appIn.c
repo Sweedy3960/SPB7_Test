@@ -77,7 +77,7 @@ SUBSTITUTE GOODS, TECHNOLOGY, SERVICES, OR ANY CLAIMS BY THIRD PARTIES
 */
 
 APPIN_DATA appinData;
-app_task_ctrl_t inputsTaskCtrl;
+extern app_task_ctrl_t inputsTaskCtrl;
 // *****************************************************************************
 // *****************************************************************************
 // Section: Application Callback Functions
@@ -156,13 +156,21 @@ void APPIN_Tasks ( void )
             {
                 appinData.valAD[i] = 0;
             }
-            appinData.state = APPDISP_STATE_SERVICE_TASKS;
+            appinData.state = APPIN_STATE_IDLE;
             break;
             
         }
 
         case APPDISP_STATE_SERVICE_TASKS:
         {
+            
+            
+            
+            inputsTaskCtrl.isDirty = true; // reset after full redraw
+            touchTaskCtrl.isActive = false; // re-enable touch task
+            ledTaskCtrl.isActive = false;
+            displayTaskCtrl.isActive = false;
+            //rtcTackCtrl.isActive = false;
             APP_AdcReadAllSamples();
             APP_GetInputsStates();
             appinData.state = APPIN_STATE_IDLE;
@@ -170,7 +178,12 @@ void APPIN_Tasks ( void )
         }
          case APPIN_STATE_IDLE:
         {
-           
+            inputsTaskCtrl.isDirty = false;
+            touchTaskCtrl.isActive = true; // re-enable touch task
+            ledTaskCtrl.isActive = true;
+            displayTaskCtrl.isActive = true;
+            rtcTaskCtrl.isActive = true;
+            
             break;
         }
 

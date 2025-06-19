@@ -178,6 +178,7 @@ void APPREG_Tasks ( void )
                 touchTaskCtrl.isActive = true; // disable touch task while updating display
                 displayTaskCtrl.isActive = true;
                 break;
+                appregData.state = APPREG_STATE_SERVICE_TASKS;
             }
 
             /* The default state should never be executed. */

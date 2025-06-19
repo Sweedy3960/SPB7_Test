@@ -78,7 +78,7 @@ SUBSTITUTE GOODS, TECHNOLOGY, SERVICES, OR ANY CLAIMS BY THIRD PARTIES
 */
 
 APPMCP_DATA appmcpData;
-app_task_ctrl_t rtcTackCtrl;
+extern app_task_ctrl_t rtcTaskCtrl;
 // *****************************************************************************
 // *****************************************************************************
 // Section: Application Callback Functions
@@ -143,19 +143,23 @@ void APPMCP_Tasks ( void )
         case APPMCP_STATE_INIT:
         {
             mcp79411_init();
-            appmcpData.state  =  APPMCP_STATE_SERVICE_TASKS;
+            appmcpData.state  =  APPMCP_STATE_IDLE;
             break;
         }
 
         case APPMCP_STATE_SERVICE_TASKS:
         {
+             if (!rtcTaskCtrl.isActive)
+                break;
+
+            rtcTaskCtrl.isDirty =true; 
             mcp79411_get_time(&appmcpData.timeofRTC);
             appmcpData.state = APPMCP_STATE_IDLE;
             break;
         }
         case APPMCP_STATE_IDLE:
         {
-
+            rtcTaskCtrl.isDirty =false; 
 
           break;          
         }

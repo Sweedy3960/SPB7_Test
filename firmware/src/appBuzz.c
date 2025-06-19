@@ -54,6 +54,7 @@ SUBSTITUTE GOODS, TECHNOLOGY, SERVICES, OR ANY CLAIMS BY THIRD PARTIES
 // *****************************************************************************
 
 #include "appbuzz.h"
+#include "taskctrl.h"
 
 // *****************************************************************************
 // *****************************************************************************
@@ -77,7 +78,7 @@ SUBSTITUTE GOODS, TECHNOLOGY, SERVICES, OR ANY CLAIMS BY THIRD PARTIES
 */
 
 APPBUZZ_DATA appbuzzData;
-
+extern app_task_ctrl_t buzzTaskCtrl;
 // *****************************************************************************
 // *****************************************************************************
 // Section: Application Callback Functions
@@ -155,6 +156,8 @@ void APPBUZZ_Tasks ( void )
 
         case APPBUZZ_STATE_SERVICE_TASKS:
         {
+              if (!buzzTaskCtrl.isActive)
+                break;
             APP_PlaySong();
         
             break;

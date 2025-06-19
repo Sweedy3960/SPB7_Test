@@ -81,7 +81,7 @@ APPTOUCH_DATA apptouchData;
 S_AT42QT2120 s_newDataSensor; //Structure pour envoie des nouvelles datas
 S_AT42QT2120 s_dataSensor; //Structure pour l'envoie des datas
 S_AT42QT2120 s_getDataSensor; //Structure pour la rec�ption des datas
-
+app_task_ctrl_t touchTaskCtrl;
 // *****************************************************************************
 // *****************************************************************************
 // Section: Application Callback Functions
@@ -146,7 +146,7 @@ void APPTOUCH_Tasks ( void )
         case APPTOUCH_STATE_INIT:
         {
             AT42QT_Init();
-            apptouchData.state = APPTOUCH_STATE_SERVICE_TASKS;
+            apptouchData.state = APPTOUCH_STATE_IDLE;
             DRV_TMR1_Start();
             LIFELED_GREENOff();
             break;

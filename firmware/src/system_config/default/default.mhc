@@ -6,7 +6,7 @@
 #     Harmony version: 2.06
 #
 #
-# from $HARMONY_VERSION_PATH\apps\PROJ\SPB7_Test\firmware\SBP7_Test.hconfig
+# from $HARMONY_VERSION_PATH\apps\PROJ\SBP7_Test\firmware\SBP7_Test.hconfig
 #
 CONFIG_APP_INSTANCES=9
 #
@@ -40,7 +40,7 @@ CONFIG_APP_MENU_IDX8=y
 CONFIG_APP_NAME_8="appSd"
 CONFIG_APP_AUTO_GENERATE_CODE8=n
 #
-# from $HARMONY_VERSION_PATH\apps\PROJ\SPB7_Test\firmware\SBP7_Test.hconfig
+# from $HARMONY_VERSION_PATH\apps\PROJ\SBP7_Test\firmware\SBP7_Test.hconfig
 #
 CONFIG_USE_EXCEPTION_HANDLER=y
 CONFIG_EXCEPTION_USE_SYS_DEBUG=y
