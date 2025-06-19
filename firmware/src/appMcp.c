@@ -55,6 +55,7 @@ SUBSTITUTE GOODS, TECHNOLOGY, SERVICES, OR ANY CLAIMS BY THIRD PARTIES
 
 #include "appmcp.h"
 #include "mcp79411.h"
+#include "taskctrl.h"
 // *****************************************************************************
 // *****************************************************************************
 // Section: Global Data Definitions

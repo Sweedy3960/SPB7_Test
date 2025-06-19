@@ -84,7 +84,7 @@ SUBSTITUTE GOODS, TECHNOLOGY, SERVICES, OR ANY CLAIMS BY THIRD PARTIES
  */
 
 APPDISP_DATA appDispData;
-app_task_ctrl_t displayTaskCtrl;
+extern app_task_ctrl_t displayTaskCtrl;
 
 // *****************************************************************************
 // *****************************************************************************
