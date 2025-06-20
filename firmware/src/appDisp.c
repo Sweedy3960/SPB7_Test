@@ -58,8 +58,10 @@ SUBSTITUTE GOODS, TECHNOLOGY, SERVICES, OR ANY CLAIMS BY THIRD PARTIES
 #include "LCD_Driver.h"
 #include "ugui.h"
 #include "ugui_config.h"
-//#include "app_taskctrl.h"
-//#include "app_eventbus.h"
+#include "appBuzz.h"
+#include "eventbus.h"
+#include "taskctrl.h"
+#include <string.h>
 
 // *****************************************************************************
 // *****************************************************************************
@@ -83,7 +85,10 @@ SUBSTITUTE GOODS, TECHNOLOGY, SERVICES, OR ANY CLAIMS BY THIRD PARTIES
  */
 
 APPDISP_DATA appDispData;
-//extern app_task_ctrl_t displayTaskCtrl;
+extern app_task_ctrl_t displayTaskCtrl;
+
+// Variable globale pour les états des signaux
+extern uint16_t g_signalLineStates[7];
 
 // *****************************************************************************
 // *****************************************************************************
@@ -153,14 +158,14 @@ void APPDISP_Tasks(void) {
             appDispData.state = APPDISP_STATE_SERVICE_TASKS;
             appDispData.needDisplayUpdate = 1;
             appDispData.dispInit = 0;
-
+            displayTaskCtrl.isActive =1;
             break;
         }
 
         case APPDISP_STATE_SERVICE_TASKS:
         {
-          // if (!displayTaskCtrl.isActive)
-            //    break;
+           if (!displayTaskCtrl.isActive)
+                break;
 
             // === Startup logo sequence ===
             if (appDispData.needDisplayUpdate) {
@@ -174,10 +179,10 @@ void APPDISP_Tasks(void) {
             }
 
             // test if we need display and reset flag afer
-//            if (displayTaskCtrl.isDirty && appDispData.dispInit) {
-//                App_Display_ChangeScreen(appDispData.currentScreen, 0, true);  //  current UI state (force)
-//                displayTaskCtrl.isDirty = false;    // clear dirty flag
-//            }
+            if (displayTaskCtrl.isDirty && appDispData.dispInit) {
+                App_Display_ChangeScreen(appDispData.currentScreen, 0, true);  //  current UI state (force)
+                displayTaskCtrl.isDirty = false;    // clear dirty flag
+            }
 
             Display_Task();  // update UG_GUI and such
             break;
@@ -210,7 +215,7 @@ void App_Display_HandleTouch(uint16_t *touchStates) {
         case KEY_UP_L_MASK:
            
         case KEY_MID_L_MASK:
-
+            //APPBUZZ_SetState(APPBUZZ_STATE_SERVICE_TASKS);
            
         case KEY_DOWN_L_MASK:
 
@@ -229,26 +234,26 @@ void App_Display_HandleTouch(uint16_t *touchStates) {
          
         case KEY_DOWN_R_MASK:
 
-            
-             switch (appDispData.currentScreen) {
-                case DISP_SCR_MENU:
-                    // Handle up left key in menu
-                    //to make it work a non blockig way we call a function to set flag then flag is checked 
-                    // and the screen is changed
-                    // this is not good for performance but it is easier to understand
-                    appDispData.needDisplayUpdate = 1;
-                    App_Display_ChangeScreen(DISP_SCR_MENU, touchStates, false);
-                    
-                    break;
-                case DISP_CHANGE_SIGN_NAME:
-                    // Handle up left key in change sign name screen
-                    // This could be used to change the name of the sign
-                    
-                    break;
-                default:
-                   
-                    break;
-            }
+//            
+//             switch (appDispData.currentScreen) {
+//                case DISP_SCR_MENU:
+//                    // Handle up left key in menu
+//                    //to make it work a non blockig way we call a function to set flag then flag is checked 
+//                    // and the screen is changed
+//                    // this is not good for performance but it is easier to understand
+//                    appDispData.needDisplayUpdate = 1;
+//                    App_Display_ChangeScreen(DISP_SCR_MENU, touchStates, false);
+//                    
+//                    break;
+//                case DISP_CHANGE_SIGN_NAME:
+//                    // Handle up left key in change sign name screen
+//                    // This could be used to change the name of the sign
+//                    
+//                    break;
+//                default:
+//                   
+//                    break;
+//            }
             break;
 
             //SIMPLE COMBO TOUCH   
@@ -273,8 +278,8 @@ void App_Display_HandleTouch(uint16_t *touchStates) {
             //RIGHT
         case ((KEY_UP_R_MASK | KEY_MID_R_MASK)):
             //
-             App_Display_ChangeScreen(DISP_CHANGE_SIGN_NAME, touchStates, false);
-             appDispData.currentScreen = DISP_CHANGE_SIGN_NAME; // Update current screen state
+            // App_Display_ChangeScreen(DISP_CHANGE_SIGN_NAME, touchStates, false);
+             //appDispData.currentScreen = DISP_CHANGE_SIGN_NAME; // Update current screen state
             break;
 
         case ((KEY_UP_R_MASK | KEY_DOWN_R_MASK)):
@@ -355,7 +360,14 @@ void App_Display_HandleTouch(uint16_t *touchStates) {
         case 0:
              //displayTaskCtrl.isDirty = true; 
             //touche released so rerender
-            App_Display_ChangeScreen(appDispData.currentScreen,&lastTouchStates,true);
+            if(appDispData.currentScreen == DISP_SIGN )
+            {
+                //App_Display_ChangeScreen(appDispData.currentScreen,&,true);
+            }
+            else
+            {
+                App_Display_ChangeScreen(appDispData.currentScreen,&lastTouchStates,true);
+            }
             break;
 
             /*
@@ -411,8 +423,11 @@ void App_Display_HandleTouch(uint16_t *touchStates) {
 }
 void App_Display_ChangeScreen(uint8_t newScreen, uint16_t *touchStates, bool forceUpdate)
 {
-   // touchTaskCtrl.isActive = false; // disable touch task while updating display
-    //ledTaskCtrl.isActive = false; //disable SR led updates
+    touchTaskCtrl.isActive = false; // disable touch task while updating display
+    ledTaskCtrl.isActive = false; //disable SR led updates
+    inputsTaskCtrl.isActive = false;
+    rtcTaskCtrl.isActive = false;
+    buzzTaskCtrl.isActive = false;
     if (appDispData.currentScreen == newScreen && !forceUpdate)
         return;  // Skip if already on this screen and no forced redraw
 
@@ -420,9 +435,12 @@ void App_Display_ChangeScreen(uint8_t newScreen, uint16_t *touchStates, bool for
 
     DisplayScreen(newScreen, touchStates, true);
 
-//    displayTaskCtrl.isDirty = false; // reset after full redraw
-//    touchTaskCtrl.isActive = true; // re-enable touch task
-//    ledTaskCtrl.isActive = true;
+    displayTaskCtrl.isDirty = false; // reset after full redraw
+    touchTaskCtrl.isActive = true; // re-enable touch task
+    inputsTaskCtrl.isActive = true; //reenable adc inputs
+    ledTaskCtrl.isActive = true;
+    rtcTaskCtrl.isActive = true;
+    buzzTaskCtrl.isActive = true;
 }
 
 
@@ -435,6 +453,23 @@ void APP_DISP_TIMER5_CALLBACK(void) {
             appDispData.needDisplayUpdate = 1;
         }
     }
+}
+
+// Gère les entrées analogiques et met à jour l'affichage des signaux
+void App_Display_HandleInputs(uint16_t *valAD) {
+    int i = 0;
+    if (!appDispData.dispInit || valAD == NULL)
+        return;
+    for (i = 0; i < 7; i++) {
+        if (valAD[i] < 600) {
+            g_signalLineStates[i] = 2; // OK
+        } else if (valAD[i] < 700) {
+            g_signalLineStates[i] = 1; // ER
+        } else {
+            g_signalLineStates[i] = 0; // LN
+        }
+    }
+    App_Display_ChangeScreen(DISP_SIGN, NULL, true);
 }
 
 /*******************************************************************************

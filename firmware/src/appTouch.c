@@ -54,7 +54,8 @@ SUBSTITUTE GOODS, TECHNOLOGY, SERVICES, OR ANY CLAIMS BY THIRD PARTIES
 // *****************************************************************************
 
 #include "apptouch.h"
-
+#include "taskctrl.h"
+#include "eventbus.h"
 // *****************************************************************************
 // *****************************************************************************
 // Section: Global Data Definitions
@@ -80,6 +81,7 @@ APPTOUCH_DATA apptouchData;
 S_AT42QT2120 s_newDataSensor; //Structure pour envoie des nouvelles datas
 S_AT42QT2120 s_dataSensor; //Structure pour l'envoie des datas
 S_AT42QT2120 s_getDataSensor; //Structure pour la rec�ption des datas
+app_task_ctrl_t touchTaskCtrl;
 // *****************************************************************************
 // *****************************************************************************
 // Section: Application Callback Functions
@@ -144,7 +146,7 @@ void APPTOUCH_Tasks ( void )
         case APPTOUCH_STATE_INIT:
         {
             AT42QT_Init();
-            apptouchData.state = APPTOUCH_STATE_SERVICE_TASKS;
+            apptouchData.state = APPTOUCH_STATE_IDLE;
             DRV_TMR1_Start();
             LIFELED_GREENOff();
             break;
@@ -152,15 +154,15 @@ void APPTOUCH_Tasks ( void )
 
         case APPTOUCH_STATE_SERVICE_TASKS:
         {
-//             if (!touchTaskCtrl.isActive)
-//                break;
+             if (!touchTaskCtrl.isActive)
+                break;
              
             s_dataSensor.valKey0to7 = AT42QT_Read_Key0to7(0);
             s_dataSensor.valKey8to11 = AT42QT_Read_Key8to11(0);
             apptouchData.touchStates = ((s_dataSensor.valKey8to11 <<8)| s_dataSensor.valKey0to7);
              if (apptouchData.touchStates != apptouchData.lastTouchStates) {
                 //set the flag 
-               // touchTaskCtrl.isDirty = true;
+               touchTaskCtrl.isDirty = true;
                 apptouchData.lastTouchStates = apptouchData.touchStates;
             }
 
@@ -171,16 +173,16 @@ void APPTOUCH_Tasks ( void )
         }
         case APPTOUCH_STATE_IDLE:
         {
-//            if (touchTaskCtrl.isDirty) {
-//             //send the event
-//             App_EventBus_Publish(EVT_TOUCH, &apptouchData.touchStates);
-//             touchTaskCtrl.isDirty = false;  // clear after publishing
-//    }
+            if (touchTaskCtrl.isDirty) {
+             //send the event
+             App_EventBus_Publish(EVT_TOUCH, &apptouchData.touchStates);
+             touchTaskCtrl.isDirty = false;  // clear after publishing
+    }
             
-        }
+        
         break;
         /* TODO: implement your application state machine.*/
-        
+        }
 
         /* The default state should never be executed. */
         default:
@@ -193,7 +195,8 @@ void APPTOUCH_Tasks ( void )
 
  void APP_TIMER2_CALLBACK(void)
 {
-    //time the app
+    //timer is 10ms so to read touch every 50ms 
+     
     apptouchData.state = APPTOUCH_STATE_SERVICE_TASKS;
 }
 

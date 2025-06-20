@@ -54,7 +54,8 @@ SUBSTITUTE GOODS, TECHNOLOGY, SERVICES, OR ANY CLAIMS BY THIRD PARTIES
 // *****************************************************************************
 
 #include "appmcp.h"
-
+#include "mcp79411.h"
+#include "taskctrl.h"
 // *****************************************************************************
 // *****************************************************************************
 // Section: Global Data Definitions
@@ -77,7 +78,7 @@ SUBSTITUTE GOODS, TECHNOLOGY, SERVICES, OR ANY CLAIMS BY THIRD PARTIES
 */
 
 APPMCP_DATA appmcpData;
-
+extern app_task_ctrl_t rtcTaskCtrl;
 // *****************************************************************************
 // *****************************************************************************
 // Section: Application Callback Functions
@@ -141,23 +142,27 @@ void APPMCP_Tasks ( void )
         /* Application's initial state. */
         case APPMCP_STATE_INIT:
         {
-            bool appInitialized = true;
-       
-        
-            if (appInitialized)
-            {
-            
-                appmcpData.state = APPMCP_STATE_SERVICE_TASKS;
-            }
+            mcp79411_init();
+            appmcpData.state  =  APPMCP_STATE_IDLE;
             break;
         }
 
         case APPMCP_STATE_SERVICE_TASKS:
         {
-        
+             if (!rtcTaskCtrl.isActive)
+                break;
+
+            rtcTaskCtrl.isDirty =true; 
+            mcp79411_get_time(&appmcpData.timeofRTC);
+            appmcpData.state = APPMCP_STATE_IDLE;
             break;
         }
+        case APPMCP_STATE_IDLE:
+        {
+            rtcTaskCtrl.isDirty =false; 
 
+          break;          
+        }
         /* TODO: implement your application state machine.*/
         
 

@@ -116,7 +116,7 @@
  */
 void SR_Init(SERIAL_REG_DATA *SRegData) {
     SRegData->state = SR_IDLE;
-    SRegData->cmd_leds = 0xA5A5;
+    SRegData->cmd_leds = 0xFFFF;
     SR_LED_CLKOff();
     SR_SRCLK_FKCDPOff();
     //should be SR_LED_OE_1On but its

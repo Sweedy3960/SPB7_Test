@@ -207,6 +207,7 @@
         <Name dnOrder="0">system_interrupt.c</Name>
         <Path dnOrder="1">Source&amp;#160;Files/app/system_config/default</Path>
         <Checksum dnOrder="2">152D30DA3BC2C98B0383A9299724BA59</Checksum>
+        <ProjectFileChecksum dnOrder="3">BD7FF36EAD552460326266078742EE30</ProjectFileChecksum>
       </Template>
       <Template dnOrder="14">
         <Name dnOrder="0">appMcp.h</Name>
@@ -312,6 +313,7 @@
         <Name dnOrder="0">system_config.h</Name>
         <Path dnOrder="1">Header&amp;#160;Files/app/system_config/default</Path>
         <Checksum dnOrder="2">663B0B29E7C68B8D8CBB2E8B59D3397C</Checksum>
+        <ProjectFileChecksum dnOrder="3">910A33086D235A5E0F9F387D3026D490</ProjectFileChecksum>
       </Template>
       <Template dnOrder="37">
         <Name dnOrder="0">appTouch.c</Name>
@@ -324,7 +326,7 @@
       <Template dnOrder="39">
         <Name dnOrder="0">drv_tmr_static.c</Name>
         <Path dnOrder="1">Source&amp;#160;Files/app/system_config/default/framework/driver/tmr/src</Path>
-        <Checksum dnOrder="2">E6E52FE98300B8610C941863776557C8</Checksum>
+        <Checksum dnOrder="2">A732831C32262755CF3A4771327C5B31</Checksum>
       </Template>
       <Template dnOrder="40">
         <Name dnOrder="0">appBoot.h</Name>

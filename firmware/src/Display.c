@@ -43,10 +43,12 @@ char signalNames[7][20] = {
     "Signal2",
     "Signal3",
     "Signal4",
-    "Signal5",
+    "Vanne  ",
     "Signal6",
     "Signal7"
 };
+
+uint16_t g_signalLineStates[7];
 ///@}
 //extern MODULE_SLOT_DATA slotData[7];
 /* ************************************************************************** */
@@ -166,16 +168,11 @@ static void DisplayScreen_Welcome(bool setToDark) {
 
 void DisplayScreen_MainMenu(uint16_t * stateTouch, bool setToDark) {
     static uint8_t menuIndex = 0; // 0 = Afficher signaux, 1 = Renommer un signal, 2 = Test Buzzer
-    //char menuItems[][]= { "Afficher signaux", "Renommer un signal", "Test Buzzer" };
-
     char *menuItems[] = {
         "Afficher signaux",
         "Renommer un signal",
         "Test Buzzer"
     };
-
-
-
     uint8_t nbItems = sizeof (menuItems) / sizeof (menuItems[0]);
     uint8_t i = 0;
     // Fond noir ou blanc
@@ -188,14 +185,11 @@ void DisplayScreen_MainMenu(uint16_t * stateTouch, bool setToDark) {
     }
     UG_FontSetHSpace(0);
     UG_FontSelect(&FONT_6X8);
-
     // Titre
     UG_PutString(1, 2, "Main Menu");
-
     // Affichage des choix de menu
     for (i = 0; i < nbItems; i++) {
         if (i == menuIndex) {
-            // Inversion noir/blanc pour l'item sÃ©lectionnÃ©
             UG_SetBackcolor(C_BLACK);
             UG_SetForecolor(C_WHITE);
             UG_FillFrame(8, 20 + i * 15, 120, 20 + i * 15 + 10, C_BLACK);
@@ -213,33 +207,13 @@ void DisplayScreen_MainMenu(uint16_t * stateTouch, bool setToDark) {
         UG_SetBackcolor(C_BLACK);
         UG_SetForecolor(C_WHITE);
     }
-     if (stateTouch == NULL)
+    if (stateTouch == NULL)
         return;
     // Gestion des touches
     switch (*stateTouch) {
-            //SIMPLE TOUCH
         case KEY_UP_R_MASK:
             if (menuIndex > 0) {
                 menuIndex--;
-            }
-            break;
-        case KEY_MID_R_MASK:
-            // Touche milieu gauche
-            switch (menuIndex) {
-                case 0:
-                    // Afficher signaux
-                    App_Display_ChangeScreen(DISP_SIGN, stateTouch, false);
-                    break;
-                case 1:
-                    // Renommer un signal
-                    App_Display_ChangeScreen(DISP_CHANGE_SIGN_NAME, stateTouch, false);
-                    break;
-                case 2:
-                    // Test Buzzer
-                    App_Display_ChangeScreen(DISP_SCR_ERROR, stateTouch, false);
-                    break;
-                default:
-                    break;
             }
             break;
         case KEY_DOWN_R_MASK:
@@ -247,15 +221,26 @@ void DisplayScreen_MainMenu(uint16_t * stateTouch, bool setToDark) {
                 menuIndex++;
             }
             break;
-        case KEY_UP_C_MASK:
+        case KEY_MID_R_MASK:
+            // Valider le choix
+            switch (menuIndex) {
+                case 0:
+                    App_Display_ChangeScreen(DISP_SIGN, stateTouch, false);
+                    break;
+                case 1:
+                    App_Display_ChangeScreen(DISP_CHANGE_SIGN_NAME, stateTouch, false);
+                    break;
+                case 2:
+                    App_Display_ChangeScreen(DISP_SCR_ERROR, stateTouch, false);
+                    APP_PlaySong();
+                    break;
+                default:
+                    break;
+            }
             break;
         default:
             break;
     }
-
-   
-
-
 }
 
 void DisplayScreen_Error(uint16_t * stateTouch, bool setToDark) {
@@ -488,12 +473,13 @@ void DisplayScreen(uint8_t screen, uint16_t *touchStates, bool setToDark) {
             DisplayEyeLogo();
             break;
         case DISP_SIGN:
-            DisplayScreen_Signals(&touchs, setToDark);
+            DisplayScreen_Signals(g_signalLineStates, setToDark);
             break;
         case DISP_SCR_MENU:
             DisplayScreen_MainMenu(&touchs, setToDark);
             break;
         case DISP_CHANGE_SIGN_NAME:
+            EditSignalName_IHM(0,(uint16_t (*)(void))&touchs);
             break;
         case DISP_SCR_ERROR:
             DisplayScreen_Error(&touchs, setToDark);
@@ -620,25 +606,18 @@ void DrawEllipse(int centerX, int centerY, int a, int b) {
 void DisplayScreen_Signals(uint16_t *stateTouch, bool setToDark) {
 
     char sginals[7][20];
-    uint8_t states[7];
     uint8_t i;
     if (stateTouch == NULL)
         return;
     for (i = 0; i < 7; i++) {
-        states[i] = (*stateTouch >> i) & 0x01;
-    }
-
-
-
-    for (i = 0; i < 7; i++) {
         strcpy(sginals[i], signalNames[i]);
-
-        if (states[i] != 0) {
+        if (stateTouch[i] == 2) {
+            strcat(sginals[i], " OK");
+        } else if (stateTouch[i] != 0) {
             strcat(sginals[i], " ER");
         } else {
-            strcat(sginals[i], " OK");
+            strcat(sginals[i], " LN");
         }
-
     }
     if (setToDark) {
         UG_SetBackcolor(C_WHITE);
@@ -674,7 +653,7 @@ void SetSignalName(int index, const char* newName) {
     }
 }
 
-void EditSignalName_IHM(int index) {
+void EditSignalName_IHM(int index, uint16_t (*getTouchState)(void)) {
     char tempName[20];
     strncpy(tempName, signalNames[index], sizeof (tempName));
     tempName[sizeof (tempName) - 1] = '\0';
@@ -682,23 +661,22 @@ void EditSignalName_IHM(int index) {
     int editing = 1;
     uint16_t lastTouch = 0;
     while (editing) {
-        // Afficher le nom en cours d'Ã©dition avec un curseur (ex: '_')
+        // Afficher le nom en cours d'édition avec un curseur (ex: '_')
         char display[24];
         snprintf(display, sizeof (display), "%s_", tempName);
         UG_FillFrame(0, 0, 127, 15, C_WHITE); // Efface la zone d'affichage
         UG_SetForecolor(C_BLACK);
         UG_PutString(0, 0, display);
         // Affiche le curseur visuel
-        UG_DrawLine(0 + pos * 8, 12, 7 + pos * 8, 12, C_BLACK); // Soulignement sous le caractÃ¨re courant
-
-        // Attendre une entrÃ©e utilisateur (ici, on suppose un polling du touchStates global)
-        extern volatile uint16_t g_lastTouchStates; // Ã€ dÃ©clarer dans ton projet, ou passer en paramÃ¨tre
-        uint16_t touch = g_lastTouchStates;
+        UG_DrawLine(0 + pos * 8, 12, 7 + pos * 8, 12, C_BLACK); // Soulignement sous le caractère courant
+ 
+        // Utilise la fonction passée en paramètre pour obtenir l'état du touch
+        uint16_t touch = getTouchState ? getTouchState() : 0;
         // Gestion des touches :
         // - KEY_UP_C_MASK : lettre suivante (A->B)
-        // - KEY_DOWN_C_MASK : lettre prÃ©cÃ©dente (B->A)
-        // - KEY_UP_R_MASK : curseur Ã  droite
-        // - KEY_DOWN_R_MASK : curseur Ã  gauche
+        // - KEY_DOWN_C_MASK : lettre précédente (B->A)
+        // - KEY_UP_R_MASK : curseur à droite
+        // - KEY_DOWN_R_MASK : curseur à gauche
         // - KEY_MID_L_MASK : valider
         // - KEY_MID_R_MASK : annuler
         if ((touch & KEY_UP_C_MASK) && !(lastTouch & KEY_UP_C_MASK)) {
@@ -726,8 +704,6 @@ void EditSignalName_IHM(int index) {
             return;
         }
         lastTouch = touch;
-
-
     }
     // Appliquer le nouveau nom
     SetSignalName(index, tempName);

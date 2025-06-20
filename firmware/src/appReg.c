@@ -54,7 +54,7 @@ SUBSTITUTE GOODS, TECHNOLOGY, SERVICES, OR ANY CLAIMS BY THIRD PARTIES
 // *****************************************************************************
 
 #include "appReg.h"
-
+#include "taskctrl.h"
 // *****************************************************************************
 // *****************************************************************************
 // Section: Global Data Definitions
@@ -77,7 +77,7 @@ SUBSTITUTE GOODS, TECHNOLOGY, SERVICES, OR ANY CLAIMS BY THIRD PARTIES
 */
 
 APPREG_DATA appregData;
-
+app_task_ctrl_t  ledTaskCtrl;
 // *****************************************************************************
 // *****************************************************************************
 // Section: Application Callback Functions
@@ -150,12 +150,12 @@ void APPREG_Tasks ( void )
 
         case APPREG_STATE_SERVICE_TASKS:
         {
-//            if (!ledTaskCtrl.isActive)
-//                break;
+            if (!ledTaskCtrl.isActive)
+                break;
 
             if (appregData.lastSysLeds.cmd_leds != appregData.sysLeds.cmd_leds) {
-                //set the flag 
-                //ledTaskCtrl.isDirty = true;
+               // set the flag 
+                ledTaskCtrl.isDirty = true;
 
             }
 
@@ -167,18 +167,21 @@ void APPREG_Tasks ( void )
             /* TODO: implement your application state machine.*/
         case APPREG_STATE_IDLE:
         {
-//            if (ledTaskCtrl.isDirty) {
-//
-//
-//
-//                touchTaskCtrl.isActive = false; // disable touch task while updating display
-//                displayTaskCtrl.isActive = false;
-//                SR_Update(&appregData.sysLeds);
-//                ledTaskCtrl.isDirty = false; // clear after updating
-//                touchTaskCtrl.isActive = true; // disable touch task while updating display
-//                displayTaskCtrl.isActive = true;
-//                break;
-//            }
+            if (ledTaskCtrl.isDirty) {
+
+
+
+                touchTaskCtrl.isActive = false; // disable touch task while updating display
+                displayTaskCtrl.isActive = false;
+                inputsTaskCtrl.isActive = false;
+                SR_Update(&appregData.sysLeds);
+                ledTaskCtrl.isDirty = false; // clear after updating
+                touchTaskCtrl.isActive = true; // disable touch task while updating display
+                displayTaskCtrl.isActive = true;
+                inputsTaskCtrl.isActive = true;
+                break;
+                
+            }
 
             /* The default state should never be executed. */
             default:
@@ -256,6 +259,23 @@ void App_LED_HandleTouch(uint16_t *touchStates) {
     //lastTouchStates = *touchStates;
 }
  
+void App_LED_HandleInputs(uint16_t *InputStates) {
+    // Teste l'état de "vanne" (signal 4)
+    if (g_signalLineStates[4] == 1 || g_signalLineStates[4] == 0) {
+        appregData.sysLeds.FREE_IN5_LED = 0; // Allume l'alarme si ER ou LN
+        appregData.sysLeds.FREE_IN3_LED_SAVE = 0; // Garde la LED SAVE allumée
+        Relay_CMD_ALARMOff();
+        SPB_OUT1_CMDOff();
+    } else {
+        appregData.sysLeds.FREE_IN3_LED_SAVE = 1; // Éteint l'alarme si OK
+        // Ne touche pas à ALARRM_LED_SAVE ici
+       
+        Relay_CMD_ALARMOn();
+        SPB_OUT1_CMDOn();
+    }
+    ledTaskCtrl.isDirty = true;
+    appregData.state = APPREG_STATE_IDLE;
+}
 
 /*******************************************************************************
  End of File

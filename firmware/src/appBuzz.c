@@ -54,6 +54,7 @@ SUBSTITUTE GOODS, TECHNOLOGY, SERVICES, OR ANY CLAIMS BY THIRD PARTIES
 // *****************************************************************************
 
 #include "appbuzz.h"
+#include "taskctrl.h"
 
 // *****************************************************************************
 // *****************************************************************************
@@ -77,7 +78,7 @@ SUBSTITUTE GOODS, TECHNOLOGY, SERVICES, OR ANY CLAIMS BY THIRD PARTIES
 */
 
 APPBUZZ_DATA appbuzzData;
-
+extern app_task_ctrl_t buzzTaskCtrl;
 // *****************************************************************************
 // *****************************************************************************
 // Section: Application Callback Functions
@@ -97,6 +98,7 @@ APPBUZZ_DATA appbuzzData;
 /* TODO:  Add any necessary local functions.
 */
 
+// Nouvelle séquence de notes pour la mélodie demandée
 
 // *****************************************************************************
 // *****************************************************************************
@@ -141,25 +143,38 @@ void APPBUZZ_Tasks ( void )
         /* Application's initial state. */
         case APPBUZZ_STATE_INIT:
         {
-            bool appInitialized = true;
-       
-        
-            if (appInitialized)
-            {
+           float songMelody[10] = {
+    //like composing a song "randomly"
+    NOTE_DO, NOTE_RE, NOTE_DO, NOTE_RE, NOTE_MI, NOTE_FA,
+    NOTE_SOL, NOTE_FA, NOTE_MI, NOTE_RE
+};
             
-                appbuzzData.state = APPBUZZ_STATE_SERVICE_TASKS;
-            }
+                appbuzzData.state = APPBUZZ_STATE_IDLE;
+            
             break;
         }
 
         case APPBUZZ_STATE_SERVICE_TASKS:
         {
-        
+              if (!buzzTaskCtrl.isActive)
+                break;
+            touchTaskCtrl.isActive = false; // re-enable touch task
+            ledTaskCtrl.isActive = false;
+            displayTaskCtrl.isActive = false;
+            
+            APP_PlaySong();
+            touchTaskCtrl.isActive = true; // re-enable touch task
+            ledTaskCtrl.isActive = true;
+            displayTaskCtrl.isActive = true;
             break;
         }
 
         /* TODO: implement your application state machine.*/
-        
+        case APPBUZZ_STATE_IDLE:
+        {
+            // For now, we just stay here
+            break;
+        }
 
         /* The default state should never be executed. */
         default:
@@ -169,9 +184,83 @@ void APPBUZZ_Tasks ( void )
         }
     }
 }
+void APP_TIMER1_CALLBACK(void)
+    {
+        //between 1khz and 4khz 
+        //timer should be set to 4khz 
+        //with loop if necessary 
+        BUZZ_CMDToggle();
 
- 
+    }
+ void APP_SetTMR0_Frequency(float freq_hz)
+    {
+        //we should verify if prescaler value is disponible for the TMR used
+        uint16_t prescaler_values[] = {1, 2, 4, 8, 16, 32, 64, 256};
+        TMR_PRESCALE prescaler_enums[] = {
+            TMR_PRESCALE_VALUE_1, TMR_PRESCALE_VALUE_2, TMR_PRESCALE_VALUE_4, TMR_PRESCALE_VALUE_8,
+            TMR_PRESCALE_VALUE_16, TMR_PRESCALE_VALUE_32, TMR_PRESCALE_VALUE_64, TMR_PRESCALE_VALUE_256
+        };
+        uint8_t i = 0;
 
+        uint32_t period = 0;
+        for (i = 0; i < 8; i++)
+        {
+            period = (uint32_t) (PBCLK_FREQ / (prescaler_values[i] * freq_hz)) - 1;
+            if (period <= 0xFFFF)
+            {
+
+                // Set prescaler
+                PLIB_TMR_PrescaleSelect(TMR_ID_1, prescaler_enums[i]);
+                // Set period
+                DRV_TMR0_PeriodValueSet(period);
+                break;
+            }
+        }
+        // Optionally restart timer
+        DRV_TMR0_Stop();
+        DRV_TMR0_Start();
+    }
+
+
+    // Function to play a song (blocking, for demo)
+
+    /**
+     * @brief Joue une mélodie sur le buzzer (fonction bloquante).
+     *
+     * Cette fonction parcourt la séquence de notes et joue chaque note avec la durée correspondante.
+     *
+     * @return void
+     */
+    void APP_PlaySong(void)
+    {
+       static float songMelody[10] = {
+    //like composing a song "randomly"
+    NOTE_DO, NOTE_RE, NOTE_DO, NOTE_RE, NOTE_MI, NOTE_FA,
+    NOTE_SOL, NOTE_FA, NOTE_MI, NOTE_RE
+};
+        static uint16_t songDurations[10] = {
+            500, 700, 500, 700, 700,
+            700, 700, 700, 700, 1000
+        };
+        uint8_t i = 0;
+        for (i = 0; i < SONG_LENGTH; i++)
+        {
+            APP_SetTMR0_Frequency(songMelody[i]);
+            DRV_TMR0_Start();
+            APP_WaitStart(songDurations[i]);
+            DRV_TMR0_Stop();
+            APP_WaitStart(40); // Petite pause
+        }
+    } 
+
+void APPBUZZ_SetState(APPBUZZ_STATES newstate)
+{
+
+        
+    appbuzzData.state = newstate;
+}
+    
+    
 /*******************************************************************************
  End of File
  */
