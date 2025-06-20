@@ -18,7 +18,7 @@ void App_EventBus_Publish(app_event_t evt, void *data)
         case EVT_INPUTS:
             
             App_Display_HandleInputs(data); //this need to be done  
-            //App_LED_HandleInputs(data);//this need to be done      
+            App_LED_HandleInputs(data);//this need to be done      
             
             break;
         

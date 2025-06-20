@@ -178,7 +178,7 @@ void APPREG_Tasks ( void )
                 touchTaskCtrl.isActive = true; // disable touch task while updating display
                 displayTaskCtrl.isActive = true;
                 break;
-                appregData.state = APPREG_STATE_SERVICE_TASKS;
+                
             }
 
             /* The default state should never be executed. */
@@ -257,6 +257,19 @@ void App_LED_HandleTouch(uint16_t *touchStates) {
     //lastTouchStates = *touchStates;
 }
  
+void App_LED_HandleInputs(uint16_t *InputStates) {
+    
+    if( appregData.sysLeds.ALARRM_LED ==1)
+    {
+        appregData.sysLeds.ALARRM_LED_SAVE =1;
+    }
+    else
+    {
+        appregData.sysLeds.ALARRM_LED =1;
+    }
+    ledTaskCtrl.isDirty = true;
+    appregData.state = APPREG_STATE_IDLE;
+}
 
 /*******************************************************************************
  End of File

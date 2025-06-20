@@ -243,7 +243,7 @@ void APP_AdcReadAllSamples(void) {
         for (i = 0; i < 14; i++) {
 
             appinData.valAD[i] = DRV_ADC_SamplesRead(i);
-            if ( !(abs(  appinData.valAD[i] -   appinData.lastvalAD[i]) >= 50)) {
+            if ( !(abs(  appinData.valAD[i] -   appinData.lastvalAD[i]) >= 20)) {
                  appinData.valAD[i] =appinData.lastvalAD[i];
             }
             

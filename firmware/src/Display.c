@@ -43,7 +43,7 @@ char signalNames[7][20] = {
     "Signal2",
     "Signal3",
     "Signal4",
-    "Signal5",
+    "Vanne  ",
     "Signal6",
     "Signal7"
 };
@@ -610,11 +610,11 @@ void DisplayScreen_Signals(uint16_t *stateTouch, bool setToDark) {
     for (i = 0; i < 7; i++) {
         strcpy(sginals[i], signalNames[i]);
         if (stateTouch[i] == 2) {
-            strcat(sginals[i], " LN");
+            strcat(sginals[i], " OK");
         } else if (stateTouch[i] != 0) {
             strcat(sginals[i], " ER");
         } else {
-            strcat(sginals[i], " OK");
+            strcat(sginals[i], " LN");
         }
     }
     if (setToDark) {

@@ -461,12 +461,12 @@ void App_Display_HandleInputs(uint16_t *valAD) {
     if (!appDispData.dispInit || valAD == NULL)
         return;
     for (i = 0; i < 7; i++) {
-        if (valAD[i] < 100) {
-            g_signalLineStates[i] = 2; // LN
+        if (valAD[i] < 600) {
+            g_signalLineStates[i] = 2; // OK
         } else if (valAD[i] < 700) {
             g_signalLineStates[i] = 1; // ER
         } else {
-            g_signalLineStates[i] = 0; // OK
+            g_signalLineStates[i] = 0; // LN
         }
     }
     App_Display_ChangeScreen(DISP_SIGN, NULL, true);
