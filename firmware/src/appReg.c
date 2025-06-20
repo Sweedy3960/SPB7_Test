@@ -261,7 +261,7 @@ void App_LED_HandleInputs(uint16_t *InputStates) {
     
     if( appregData.sysLeds.ALARRM_LED ==1)
     {
-        appregData.sysLeds.ALARRM_LED_SAVE =1;
+        appregData.sysLeds.ALARRM_LED_SAVE =1;    
     }
     else
     {
