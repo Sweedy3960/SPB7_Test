@@ -158,8 +158,14 @@ void APPBUZZ_Tasks ( void )
         {
               if (!buzzTaskCtrl.isActive)
                 break;
+            touchTaskCtrl.isActive = false; // re-enable touch task
+            ledTaskCtrl.isActive = false;
+            displayTaskCtrl.isActive = false;
+            
             APP_PlaySong();
-        
+            touchTaskCtrl.isActive = true; // re-enable touch task
+            ledTaskCtrl.isActive = true;
+            displayTaskCtrl.isActive = true;
             break;
         }
 

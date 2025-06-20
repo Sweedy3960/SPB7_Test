@@ -10,7 +10,7 @@ void App_EventBus_Publish(app_event_t evt, void *data)
         case EVT_TOUCH:
             
             App_Display_HandleTouch(data);    //gestion touche du diplay
-            App_LED_HandleTouch(data);         // gestion touche des  led 
+            //App_LED_HandleTouch(data);         // gestion touche des  led 
             //pour test utilier pour commander les leds mais à l'avenir
             //Ce sont les EVT_INPUTS sauf si quittancage dans  menu or smth
             break;

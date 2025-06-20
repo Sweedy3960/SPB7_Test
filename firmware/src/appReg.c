@@ -173,10 +173,12 @@ void APPREG_Tasks ( void )
 
                 touchTaskCtrl.isActive = false; // disable touch task while updating display
                 displayTaskCtrl.isActive = false;
+                inputsTaskCtrl.isActive = false;
                 SR_Update(&appregData.sysLeds);
                 ledTaskCtrl.isDirty = false; // clear after updating
                 touchTaskCtrl.isActive = true; // disable touch task while updating display
                 displayTaskCtrl.isActive = true;
+                inputsTaskCtrl.isActive = true;
                 break;
                 
             }
@@ -258,15 +260,18 @@ void App_LED_HandleTouch(uint16_t *touchStates) {
 }
  
 void App_LED_HandleInputs(uint16_t *InputStates) {
-    // Supposons que l'√©tat du signal vanne est accessible via appDispData.vanneState
-    // et que les valeurs ER et LN sont d√©finies par VANNE_STATE_ER et VANNE_STATE_LN
-    // √Ä adapter selon votre projet !
-    if (appDispData.vanneState == VANNE_STATE_ER || appDispData.vanneState == VANNE_STATE_LN) {
-        appregData.sysLeds.ALARRM_LED = 1; // Allume l'alarme
-        appregData.sysLeds.ALARRM_LED_SAVE = 1; // Garde la LED SAVE allum√©e
+    // Teste l'Ètat de "vanne" (signal 4)
+    if (g_signalLineStates[4] == 1 || g_signalLineStates[4] == 0) {
+        appregData.sysLeds.FREE_IN5_LED = 0; // Allume l'alarme si ER ou LN
+        appregData.sysLeds.FREE_IN3_LED_SAVE = 0; // Garde la LED SAVE allumÈe
+        Relay_CMD_ALARMOff();
+        SPB_OUT1_CMDOff();
     } else {
-        appregData.sysLeds.ALARRM_LED = 0; // √âteint l'alarme si pas ER ou LN
-        // Ne touche pas √† ALARRM_LED_SAVE ici
+        appregData.sysLeds.FREE_IN3_LED_SAVE = 1; // …teint l'alarme si OK
+        // Ne touche pas ‡ ALARRM_LED_SAVE ici
+       
+        Relay_CMD_ALARMOn();
+        SPB_OUT1_CMDOn();
     }
     ledTaskCtrl.isDirty = true;
     appregData.state = APPREG_STATE_IDLE;

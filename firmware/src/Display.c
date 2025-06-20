@@ -232,6 +232,7 @@ void DisplayScreen_MainMenu(uint16_t * stateTouch, bool setToDark) {
                     break;
                 case 2:
                     App_Display_ChangeScreen(DISP_SCR_ERROR, stateTouch, false);
+                    APP_PlaySong();
                     break;
                 default:
                     break;
@@ -478,6 +479,7 @@ void DisplayScreen(uint8_t screen, uint16_t *touchStates, bool setToDark) {
             DisplayScreen_MainMenu(&touchs, setToDark);
             break;
         case DISP_CHANGE_SIGN_NAME:
+            EditSignalName_IHM(0,(uint16_t (*)(void))&touchs);
             break;
         case DISP_SCR_ERROR:
             DisplayScreen_Error(&touchs, setToDark);
@@ -651,7 +653,7 @@ void SetSignalName(int index, const char* newName) {
     }
 }
 
-void EditSignalName_IHM(int index) {
+void EditSignalName_IHM(int index, uint16_t (*getTouchState)(void)) {
     char tempName[20];
     strncpy(tempName, signalNames[index], sizeof (tempName));
     tempName[sizeof (tempName) - 1] = '\0';
@@ -659,23 +661,22 @@ void EditSignalName_IHM(int index) {
     int editing = 1;
     uint16_t lastTouch = 0;
     while (editing) {
-        // Afficher le nom en cours d'Ã©dition avec un curseur (ex: '_')
+        // Afficher le nom en cours d'édition avec un curseur (ex: '_')
         char display[24];
         snprintf(display, sizeof (display), "%s_", tempName);
         UG_FillFrame(0, 0, 127, 15, C_WHITE); // Efface la zone d'affichage
         UG_SetForecolor(C_BLACK);
         UG_PutString(0, 0, display);
         // Affiche le curseur visuel
-        UG_DrawLine(0 + pos * 8, 12, 7 + pos * 8, 12, C_BLACK); // Soulignement sous le caractÃ¨re courant
-
-        // Attendre une entrÃ©e utilisateur (ici, on suppose un polling du touchStates global)
-        extern volatile uint16_t g_lastTouchStates; // Ã€ dÃ©clarer dans ton projet, ou passer en paramÃ¨tre
-        uint16_t touch = g_lastTouchStates;
+        UG_DrawLine(0 + pos * 8, 12, 7 + pos * 8, 12, C_BLACK); // Soulignement sous le caractère courant
+ 
+        // Utilise la fonction passée en paramètre pour obtenir l'état du touch
+        uint16_t touch = getTouchState ? getTouchState() : 0;
         // Gestion des touches :
         // - KEY_UP_C_MASK : lettre suivante (A->B)
-        // - KEY_DOWN_C_MASK : lettre prÃ©cÃ©dente (B->A)
-        // - KEY_UP_R_MASK : curseur Ã  droite
-        // - KEY_DOWN_R_MASK : curseur Ã  gauche
+        // - KEY_DOWN_C_MASK : lettre précédente (B->A)
+        // - KEY_UP_R_MASK : curseur à droite
+        // - KEY_DOWN_R_MASK : curseur à gauche
         // - KEY_MID_L_MASK : valider
         // - KEY_MID_R_MASK : annuler
         if ((touch & KEY_UP_C_MASK) && !(lastTouch & KEY_UP_C_MASK)) {
@@ -703,8 +704,6 @@ void EditSignalName_IHM(int index) {
             return;
         }
         lastTouch = touch;
-
-
     }
     // Appliquer le nouveau nom
     SetSignalName(index, tempName);
