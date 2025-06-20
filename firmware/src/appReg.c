@@ -258,14 +258,15 @@ void App_LED_HandleTouch(uint16_t *touchStates) {
 }
  
 void App_LED_HandleInputs(uint16_t *InputStates) {
-    
-    if( appregData.sysLeds.ALARRM_LED ==1)
-    {
-        appregData.sysLeds.ALARRM_LED_SAVE =1;    
-    }
-    else
-    {
-        appregData.sysLeds.ALARRM_LED =1;
+    // Supposons que l'état du signal vanne est accessible via appDispData.vanneState
+    // et que les valeurs ER et LN sont définies par VANNE_STATE_ER et VANNE_STATE_LN
+    // À adapter selon votre projet !
+    if (appDispData.vanneState == VANNE_STATE_ER || appDispData.vanneState == VANNE_STATE_LN) {
+        appregData.sysLeds.ALARRM_LED = 1; // Allume l'alarme
+        appregData.sysLeds.ALARRM_LED_SAVE = 1; // Garde la LED SAVE allumée
+    } else {
+        appregData.sysLeds.ALARRM_LED = 0; // Éteint l'alarme si pas ER ou LN
+        // Ne touche pas à ALARRM_LED_SAVE ici
     }
     ledTaskCtrl.isDirty = true;
     appregData.state = APPREG_STATE_IDLE;
